@@ -17,7 +17,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
 import plotly.express as px
 # Streamlit run ./Streamlit/app.py
-#Rasmus: cd C:\Users\rasmu\OneDrive\Skrivebord\4 sem\BI-Exam-COVID\Streamlit
+#Rasmus: cd C:\Users\rasmu\OneDrive\Skrivebord\4 sem\BI-Exam-COVID\
 
 st.set_page_config(page_title="Vaccination rates", page_icon="📊")
 
@@ -221,8 +221,8 @@ nordic_data = data_hypothesis_2[data_hypothesis_2['location'].isin(nordic_countr
 
 # Opret et scatterplot med plotly
 fig = px.scatter(nordic_data, x='date', y='total_cases', color='location', hover_name='location',
-                 labels={'date': 'Date', 'total_cases': 'Total COVID-19 Cases'},
-                 title='Relationship between COVID-19 Cases and the timeperiod 2020-2024 in the Nordic Countries')
+                 labels={'date': 'Date', 'total_cases': 'Total COVID-19 Cases'})
+                 #title='Relationship between COVID-19 Cases and the timeperiod 2020-2024 in the Nordic Countries')
 st.plotly_chart(fig)
 
 # Filtrer dataene kun for nordic_countries
@@ -235,8 +235,8 @@ st.markdown("The scatterplot is interactive, so you can hover over the points to
 
 # Opret et scatterplot med plotly
 fig = px.scatter(nordic_data, x='date', y='total_vaccinations_per_hundred', color='location', hover_name='location',
-                 labels={'date': 'Date', 'total_vaccinations_per_hundred': 'Vaccinations per Hundred'},
-                 title='Relationship between Vaccination Coverage and the timeperiod 2020-2024 in the Nordic Countries')
+                 labels={'date': 'Date', 'total_vaccinations_per_hundred': 'Vaccinations per Hundred'})
+                 #title='Relationship between Vaccination Coverage and the timeperiod 2020-2024 in the Nordic Countries')
 
 # Vis plottet
 st.plotly_chart(fig)
@@ -256,8 +256,8 @@ top_5_nordic_data = data_hypothesis_2_subset[data_hypothesis_2_subset['location'
 
 # søjlediagram med plotly for de nordiske lande med farvefulde søjler baseret på total_cases
 fig = px.bar(top_5_nordic_data, x='location', y='total_vaccinations_per_hundred', color='total_cases',
-             labels={'total_vaccinations_per_hundred': 'Gennemsnitlig vaccinationsdækning per hundrede', 'location': 'Land'},
-             title='Top 5 Nordic countries with the highest average number of cases for vaccination coverage per hundred')
+             labels={'total_vaccinations_per_hundred': 'Gennemsnitlig vaccinationsdækning per hundrede', 'location': 'Land'})
+             #title='Top 5 Nordic countries with the highest average number of cases for vaccination coverage per hundred')
 
 # Vis plottet på Streamlit side
 st.plotly_chart(fig)
@@ -270,7 +270,7 @@ for country in nordic_countries:
     ax.hist(country_data['total_cases'], bins=20, alpha=0.5, label=country)
 
 st.title("Distribution of the number of cases in the Nordic countries")
-st.markdown("Text")
+st.markdown("In this chart we can see the frequency of cases of all the countries, as shown by color.")
 
 ax.set_title('Distribution of the number of cases in the Nordic countries')
 ax.set_xlabel('Cases')
@@ -301,7 +301,9 @@ numerical_data_hypo2 = data_hypo2.select_dtypes(include='number')
 correlation_matrix = numerical_data_hypo2.corr()
 
 st.title("Correlation Matrix for the Nordic countries")
-st.markdown("Text")
+st.markdown("In our correlation matrix, we have 3 variables: total_cases, total_vaccinations_per_hundred and population_density.")
+st.markdown("The different variables are divied into colortones that indicate positive and negative correlation. The darker the color, the stronger the correlation.")
+st.markdown("What we can see in our matrix is that the colors show that there isn't strong correlation between the three values, and thus our hypothesis is not supported by the data.")
 
 # Lav en heatmap
 fig, ax = plt.subplots(figsize=(10, 8))
@@ -357,7 +359,9 @@ print(np.sqrt(metrics.mean_squared_error(y_test, y_predicted)))
 r2_score(y_test, y_predicted)
 
 st.title("Multiple Linear Regression for Denmark")
-st.markdown("Text")
+st.markdown("Like the correlation matrix, our MLR model shows that there isn't correlation between the number of cases and the vaccination coverage per hundred.") 
+st.markdown("Had there been correlation, the two lines (if you can call them that), would have been more similar.")
+st.markdown("But what we can see, is that they divert from each other and are no way near. Hence, no correlation")
 
 # Visualise the regression results
 fig, ax = plt.subplots()
