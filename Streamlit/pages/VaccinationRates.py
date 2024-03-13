@@ -168,6 +168,11 @@ nordic_countries = ['Denmark', 'Norway', 'Sweden', 'Finland', 'Greenland']
 # Copy the necessary columns to the hypothesis 2 dataframe
 data_hypothesis_2 = data_hypo2[['location', 'total_cases', 'total_vaccinations_per_hundred', 'population_density', 'date']]
 
+denmark_data = data_hypothesis_2[data_hypothesis_2['location'] == 'Denmark']
+norge_data = data_hypothesis_2[data_hypothesis_2['location'] == 'Norway']
+sweden_data = data_hypothesis_2[data_hypothesis_2['location'] == 'Sweden']
+finland_data = data_hypothesis_2[data_hypothesis_2['location'] == 'Finland']
+greenland_data = data_hypothesis_2[data_hypothesis_2['location'] == 'Greenland']
 # Create empty dictionaries to store data for each Nordic country
 nordic_data = {}
 
@@ -205,7 +210,7 @@ last_row = data_hypothesis_2.groupby('location').last().reset_index()
 last_row.sample(5)
 
 
-nordic_countries = ['Denmark', 'Norge', 'Sweden', 'Finland', 'Greenland']
+nordic_countries = ['Denmark', 'Norway', 'Sweden', 'Finland', 'Greenland']
 
 # Create an empty list to store the plots
 figures = []
@@ -245,28 +250,33 @@ st.title("Top 5 Nordic countries with the highest average number of cases for va
 st.markdown("In the bar chart below, you can see the top 5 nordic countries with the highest average number of cases for vaccination coverage per hundred.")
 st.markdown("The countries are represented by colorful bars, where the color represents the total number of cases.")
 
-# filtrere data_hypothesis_2 for kun nordiske lande
+# Filtrere data_hypothesis_2 for kun nordiske lande
 data_hypothesis_2_subset = data_hypothesis_2[data_hypothesis_2['location'].isin(nordic_countries)]
 
 # De nordiske lande med det højeste gennemsnitlige antal sager for vaccinationsdækning per hundred
-top_5_nordic_countries = data_hypothesis_2_subset[data_hypothesis_2_subset['location'].isin(nordic_countries)].groupby('location')['total_vaccinations_per_hundred'].mean().nlargest(5).index
+top_5_nordic_countries = data_hypothesis_2_subset.groupby('location')['total_vaccinations_per_hundred'].mean().nlargest(5).index
 
-# subset af data, der kun indeholder de nordiske lande med det højeste gennemsnitlige antal sager for vaccinationsdækning per hundred
-top_5_nordic_data = data_hypothesis_2_subset[data_hypothesis_2_subset['location'].isin(top_5_nordic_countries)]
+# Subset af data, der kun indeholder de nordiske lande med det højeste gennemsnitlige antal sager for vaccinationsdækning per hundred
+top_5_nordic_data = data_hypothesis_2_subset[data_hypothesis_2_subset['location'].isin(top_5_nordic_countries)].sort_values('total_vaccinations_per_hundred', ascending=True)
 
-# søjlediagram med plotly for de nordiske lande med farvefulde søjler baseret på total_cases
+# Søjlediagram med plotly for de nordiske lande med farvefulde søjler baseret på total_cases
 fig = px.bar(top_5_nordic_data, x='location', y='total_vaccinations_per_hundred', color='total_cases',
-             labels={'total_vaccinations_per_hundred': 'Gennemsnitlig vaccinationsdækning per hundrede', 'location': 'Land'})
-             #title='Top 5 Nordic countries with the highest average number of cases for vaccination coverage per hundred')
+             labels={'total_vaccinations_per_hundred': 'Gennemsnitlig vaccinationsdækning per hundrede', 'location': 'Land'},
+             title='Top 5 nordiske lande med det højeste gennemsnitlige antal sager for vaccinationsdækning per hundrede')
 
 # Vis plottet på Streamlit side
 st.plotly_chart(fig)
 
 
-# histogram for total_cases i de nordiske lande
+# Opretter en figur og en akse med matplotlib
 fig, ax = plt.subplots(figsize=(10, 6))
+
+# Itererer gennem listen af nordiske lande for at tilføje hvert lands data til histogrammet
 for country in nordic_countries:
+    # Filtrer data for det aktuelle land
     country_data = data_hypothesis_2_subset[data_hypothesis_2_subset['location'] == country]
+    
+    # Tilføjer landets data til histogrammet
     ax.hist(country_data['total_cases'], bins=20, alpha=0.5, label=country)
 
 st.title("Distribution of the number of cases in the Nordic countries")
@@ -277,7 +287,10 @@ ax.set_xlabel('Cases')
 ax.set_ylabel('Observations')
 ax.legend()
 
-# Vis plottet på Streamlit side
+# Tilføjer en legende for at identificere hvert land
+ax.legend()
+
+# Viser plottet i Streamlit ved hjælp af st.pyplot()
 st.pyplot(fig)
 
 
