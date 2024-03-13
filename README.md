@@ -32,8 +32,15 @@ Make sure Streamlit is correctly installed (perhaps through Anaconda + keep 'env
 
 # Artefacts
 Code written in Python using Visual Studio Code
+
 Different models and graphs launched through Streamlit
-Two .csv files (part of the project)
+
+.csv files (part of the project):
+
+- covid-vaccination-doses-per-capita.csv
+- human-development-index.csv
+- owid-covid-data.csv
+- population-density.csv
 
 Libraries:
 - streamlit
