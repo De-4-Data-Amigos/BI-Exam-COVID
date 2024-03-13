@@ -303,7 +303,7 @@ correlation_matrix = numerical_data_hypo2.corr()
 st.title("Correlation Matrix for the Nordic countries")
 st.markdown("In our correlation matrix, we have 3 variables: total_cases, total_vaccinations_per_hundred and population_density.")
 st.markdown("The different variables are divied into colortones that indicate positive and negative correlation. The darker the color, the stronger the correlation.")
-st.markdown("What we can see in our matrix is that the colors show that there isn't strong correlation between the three values, and thus our hypothesis is not supported by the data.")
+st.markdown("What we can see in our matrix is that the colors show that there isn't strong correlation between the three values, and thus our hypothesis is not supported by our data.")
 
 # Lav en heatmap
 fig, ax = plt.subplots(figsize=(10, 8))
@@ -361,7 +361,7 @@ r2_score(y_test, y_predicted)
 st.title("Multiple Linear Regression for Denmark")
 st.markdown("Like the correlation matrix, our MLR model shows that there isn't correlation between the number of cases and the vaccination coverage per hundred.") 
 st.markdown("Had there been correlation, the two lines (if you can call them that), would have been more similar.")
-st.markdown("But what we can see, is that they divert from each other and are no way near. Hence, no correlation")
+st.markdown("But what we can see, is that they divert from each other and are no way near. Hence, no correlation and hypothesis not supported by our data.")
 
 # Visualise the regression results
 fig, ax = plt.subplots()
