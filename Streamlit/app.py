@@ -16,8 +16,8 @@ from PIL import Image
 
 
 st.set_page_config(
-    page_title="Streamlit MiniProject4",
-    page_icon="🧊",
+    page_title="Covid-19 Data Analysis",
+    page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded",
     menu_items={        
@@ -68,6 +68,6 @@ st.markdown("""
 <div class='small-font reduce-margin'>
     This examination project was crafted for the Business Intelligence 2024 course.<br>
     Kind regards,<br>
-    Rasmus, Deniz, Victor, & Marcus
+    Rasmus Arendt, Deniz Denson, Victor Christensen & Marcus Løbel
 </div>
 """, unsafe_allow_html=True)
