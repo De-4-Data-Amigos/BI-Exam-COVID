@@ -18,6 +18,10 @@ from sklearn.metrics import r2_score
 import plotly.express as px
 import sklearn.metrics as sm
 from sklearn.model_selection import train_test_split
+import folium
+#!pip install streamlit-folium
+from streamlit_folium import st_folium
+
 
 # Streamlit run ./Streamlit/app.py
 
@@ -223,3 +227,23 @@ for country_name in countries_and_models:
     model.do_scoring_(model.y_test, predictions)
     countries_and_models[country_name] = model
     print(f"{model.country_name}: mae: {model.MAE}, mse: {model.MSE}, rmse: {model.RMSE}, r2_score: {model.r2_score_}, eV: {model.eV}")
+
+
+# Generer et Folium-kort
+def generate_map(df):
+    # Start kortet ved et globalt udsnit
+    m = folium.Map(location=[0, 0], zoom_start=2)
+
+    # Tilføj markører for hvert land
+    for _, row in df.iterrows():
+        folium.Marker(
+            location=[row['latitude'], row['longitude']],
+            popup=f"{row['country_name']}: {row['total_cases']} total cases",
+            icon=folium.Icon(color='red', icon='info-sign')
+        ).add_to(m)
+    
+    # Vis kortet i Streamlit
+    st_folium(m, width=725, height=500)
+
+# Du skal muligvis tilpasse din dataforberedelse for at matche dette eksempel
+generate_map(df)
