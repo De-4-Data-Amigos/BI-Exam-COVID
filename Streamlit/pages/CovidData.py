@@ -23,9 +23,9 @@ st.set_page_config(page_title="Data about Covid", page_icon="📊")
 
 st.title("Not all countries are equally exposed to the risk of COVID-19 infection.")
 st.markdown("Hypothesis 3:")
-st.markdown("We do not believe that development of a  country (hdi) correlates to how exposed a county is to infection")
+st.markdown("'We do not believe that development of a  country (HDI) correlates to how exposed a county is to infection'")
 
-st.markdown("text")
+st.markdown("In our third hypothesis, we want to try and predict clusters of countries based on Human Development Index and Total Cases. In other words, if two countries with close HDI values, will these also have the same amount of total cases?")
 # Load the data. The data is from the Our World in Data's github (https://github.com/owid/covid-19-data/tree/master/public/data). downloaded on 10/03/2024
 df = pd.read_csv("../Data/owid-covid-data.csv")
 
@@ -106,8 +106,8 @@ print("Distortion: ", distortions)
 
 
 st.title('Elbow Method for Optimal K')
-st.markdown("Text")
-
+st.markdown("In our elbow method, we're looking to find the most optimal amount of clusters of countries based on Human Development Index and Total Cases. We're looking for the 'elbow' in the graph, which is the point where the distortion begins to decrease at a slower rate.")
+st.markdown("In our case, we'd recommend 5 clusters using this method, hence the 'elbow' is at 5. There's also an elbow at 3, but we prefer using 5 clusters, as it gives a better representation of the data.")
 # Opretter en ny figur og akse
 fig, ax = plt.subplots()
 
@@ -141,7 +141,7 @@ for k in K:
 
 
 st.title('Silhouette Score Method for Discovering the Optimal K')
-st.markdown("Text")
+st.markdown("Silhouette Score Method is a different method for this, but we're again looking for the optimal amount of clusters of countries based on Human Development. We've chosen 6, as 3 is too few, and 2 is not a good represenative of the data.")
 # Opretter en ny figur og akse
 fig, ax = plt.subplots()
 
@@ -166,7 +166,7 @@ last_row['cluster_label'] = kmeans.labels_
 
 
 st.title('Clustering of Countries by Human Development Index and Total Cases')
-st.markdown("Text")
+st.markdown("Now we're using the 6 clusters from Silhouette Score Method to cluster the countries based on Human Development.")
 
 # Opretter en figur og et antal subplots baseret på antallet af klynger
 fig, axs = plt.subplots(num_clusters, figsize=(10, num_clusters * 5), squeeze=False)
@@ -194,7 +194,7 @@ plt.tight_layout()
 st.pyplot(fig)
 
 
-
+st.markdown("Here we can see all the clusters in different colors. We can see that the countries are clustered based on their Human Development Index and Total Cases. We can also see that the countries are not equally exposed to the risk of COVID-19 infection, as we can see that the clusters are not equally distributed. Lastly, we can see that the countries with the highest Human Development Index are in the same cluster, and the countries with the lowest Human Development.")
 
 # Opretter en ny figur
 fig, ax = plt.subplots()
@@ -300,17 +300,17 @@ dtree = graphviz.Source(gr_data)
 #dtree 
 
 st.title("Silhouette Score")
-st.markdown("Text")
+st.markdown("Looking at this, we can see that the average silhouette score is about 0.58, which is an okay score. It means that the clusters are well apart from each other and are well clustered. We can also see that the clusters are equally exposed to the risk of COVID-19 infection, as we can see that the clusters are equally distributed.")
 
 #import silhoutte picture at show it
 st.image('../Data/silhouette.png', use_column_width=True)
 
 
 st.title("Decision Tree")
-st.markdown("Text")
+st.markdown("Using the decision tree, we can try and predict what cluster a country should go into using the HDI and total cases. Using mathematics, it predicts the cluster, and as we can see, the countries with the highest Human Development Index are in the same cluster, and the countries with the lowest Human Development.")
 
 # import tree picture at show it
 st.image('../Data/tree.png', use_column_width=True)
 
-st.markdown("Analysis of the hypothesis")
-st.markdown("Further investigation is required to evaluate the relationship between a country's Human Development Index (HDI) and its susceptibility to COVID-19 infection. What we've gathered so far, is thatMore regression analysis and correlation studies to determine whether there is a significant association between HDI and COVID-19 transmission rates.")
+st.title("Analysis of the hypothesis")
+st.markdown("Through our analysis, we can gather that countries, no matter their HDI, are at a seemingly equal risk of covid-19 infection. Using our model, it's possible to predict what cluster a country should go into, based on the HDI and total cases. We can also see that the countries with the highest Human Development still have a high amount of cases, and the countries with the lowest Human Development still have a low amount of cases. This means that the HDI does not correlate to how exposed a country is to infection. Further investigation is required to evaluate the relationship between a country's Human Development Index (HDI) and its susceptibility to COVID-19 infection. What we've gathered so far, is that more regression analysis and correlation studies should be done to determine whether there truly is a significant association between HDI and COVID-19 transmission rates.")

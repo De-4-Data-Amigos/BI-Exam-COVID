@@ -25,9 +25,9 @@ st.set_page_config(page_title="Vaccination rates", page_icon="📊")
 
 st.title("Vaccination rates")
 st.markdown("Hypothesis 2:")
-st.markdown("'We believe there is a connection between a country's population density and the number of COVID-19 cases, where higher population density correlates with more COVID-19 cases. That is to say, countries with more cases also had higher vaccination coverage.'")
+st.markdown("'We do not believe there is a connection between a country's population density and the number of COVID-19 cases, where higher population density correlates with more COVID-19 cases. That is to say, countries with more cases also had higher vaccination coverage.'")
 
-st.markdown("Based on our second hypothesis, we want to investigate the relationship between the number of Covid-19 cases and the vaccination rates.")
+st.markdown("Based on our second hypothesis, we want to investigate the relationship between the number of Covid-19 cases, vaccination rates and population density.")
 
 
 # Load the data. The data is from the Our World in Data's github (https://github.com/owid/covid-19-data/tree/master/public/data). downloaded on 10/03/2024
@@ -439,6 +439,6 @@ ax.set_ylabel('Total Vaccinations per Hundred')
 st.pyplot(fig)
 
 st.title("Analysis of the hypothesis")
-st.markdown("Contrary to our hypothesis, our analysis revealed no significant correlation between a country's population density and the number of COVID-19 cases. While population density is a factor in virus transmission, other variables such as government interventions, healthcare infrastructure, and public compliance with safety measures also play significant roles in shaping the spread of the virus.")
+st.markdown("Following our hypothesis, our analysis revealed no significant correlation between a country's population density and the number of COVID-19 cases. While population density is a factor in virus transmission, other variables such as government interventions, healthcare infrastructure, and public compliance with safety measures also play significant roles in shaping the spread of the virus.")
 
 

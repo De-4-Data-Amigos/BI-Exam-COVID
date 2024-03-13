@@ -49,8 +49,8 @@ st.markdown("""
 st.markdown("""
 <div class='reduce-margin intro-text'>
     Dear reader,<br><br>
-    In an era where data-driven decision making is paramount, our project presents a comprehensive analysis aimed at enhancing pandemic preparedness and response. Utilizing extensive data from Our World in Data, we delve into lessons learned from the COVID-19 pandemic, identifying opportunities for policy improvement and more efficient crisis management strategies.<br><br>
-    This Streamlit dashboard offers an interactive platform for exploring various data dimensions, revealing insights into the effectiveness of different containment measures, the impact on healthcare systems, and the socio-economic consequences of pandemics. Our goal is to provide a tool that can inform future policy decisions, ensuring a more resilient societal structure against potential health crises.<br><br>
+    In an era where data-driven decision making is important, our project presents a analysis aimed at pandemic preparedness and response. Utilizing extensive data from Our World in Data (OWID), we delve into lessons learned from the COVID-19 pandemic, identifying opportunities efficient crisis management strategies.<br><br>
+    This Streamlit dashboard offers an interactive platform for exploring various data dimensions, revealing insights into the effectiveness of different containment measures and the impact on healthcare systems. Our goal is to provide a tool that can inform future policy decisions, ensuring resilient decision making towards potential health crisis.<br><br>
 </div>
 """, unsafe_allow_html=True)
 
@@ -58,10 +58,13 @@ st.markdown("""
 st.markdown("""
 <div class='reduce-margin intro-text'>
     <strong>Purpose of the Project:</strong><br>
-    In this Streamlit dashboard, our main goal is to explore and visualize the relationship between various factors and COVID-19 statistics to challenge common perceptions and inform future policy. Through in-depth analysis supported by a series of graphs, we aim to investigate three key hypotheses:<br>
-    1. There is no correlation between a country's GDP and the number of COVID-19 cases.<br>
-    2. Countries with a higher number of COVID-19 cases tend to have higher vaccination rates per hundred people.<br>
-    3. Not all countries are equally exposed to the risk of COVID-19 infection.<br><br>
+    In this Streamlit dashboard, our main goal is to explore and visualize the relationship between various factors and COVID-19 statistics to challenge common perceptions and inform future policy. Through in-depth analysis supported by a series of graphs, models and explanations, we aim to investigate three key hypotheses. <br>
+            <br>
+    <strong>Hypothesis 1</strong><br> We do not believe that there is a correlation between the number of infected individuals in relation to a country's Gross National Product (GNP) per capita.<br>
+            <br>
+    <strong>Hypothesis 2</strong><br> We do not believe there is a connection between a country's population density and the number of COVID-19 cases, where higher population density correlates with  more COVID-19 cases. That is to say, countries with more cases also had higher vaccination coverage.<br>
+            <br>
+    <strong>Hypothesis 3</strong><br>We do not believe that development of a country (HDI) correlates to how exposed a county is to infection.<br><br>
     By presenting data-driven insights on these hypotheses, we hope to provide valuable knowledge that could help in crafting more effective health policies and responses in the face of future pandemics. Our analysis is intended to empower policymakers, including you, by providing a nuanced understanding of the factors that influence pandemic dynamics and public health outcomes.<br><br>
 </div>
 """, unsafe_allow_html=True)
@@ -72,6 +75,6 @@ st.markdown("""
 <div class='small-font reduce-margin'>
     This examination project was crafted for the Business Intelligence 2024 course.<br>
     Kind regards,<br>
-    Rasmus Arendt, Deniz Denson, Victor Christensen & Marcus Løbel
+    Rasmus Tornby Arendt, Deniz Denson, Victor Christensen & Marcus Løbel
 </div>
 """, unsafe_allow_html=True)
