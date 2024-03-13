@@ -389,7 +389,7 @@ ax.set_ylabel('Total Vaccinations per Hundred')
 # Vis plottet på Streamlit side
 st.pyplot(fig)
 
-st.title("Conclusion")
+st.title("Analysis of the hypothesis")
 st.markdown("Contrary to our hypothesis, our analysis revealed no significant correlation between a country's population density and the number of COVID-19 cases. While population density is a factor in virus transmission, other variables such as government interventions, healthcare infrastructure, and public compliance with safety measures also play significant roles in shaping the spread of the virus.")
 
 

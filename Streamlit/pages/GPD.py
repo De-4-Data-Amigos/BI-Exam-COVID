@@ -304,4 +304,5 @@ for country_name in countries_and_models:
     countries_and_models[country_name] = model
     print(f"{model.country_name}: mae: {model.MAE}, mse: {model.MSE}, rmse: {model.RMSE}, r2_score: {model.r2_score_}, eV: {model.eV}")
 
-
+st.title("Analysis of the hypothesis")
+st.markdown("Through exploratory data analysis and regression modeling, we did not find hard evidence suggesting a significant correlation between a country's GNP per capita and the number of COVID-19 cases. Higher GNP per capita countries tended to have higher numbers of COVID-19 cases, indicating a potential relationship between economic prosperity and virus transmission, but the data did not really support this enough.")

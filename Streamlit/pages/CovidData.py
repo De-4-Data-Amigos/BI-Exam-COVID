@@ -22,8 +22,10 @@ from sklearn import tree
 st.set_page_config(page_title="Data about Covid", page_icon="📊")
 
 st.title("Not all countries are equally exposed to the risk of COVID-19 infection.")
-st.markdown("Text about the hypothesis")
+st.markdown("Hypothesis 3:")
+st.markdown("We do not believe that development of a  country (hdi) correlates to how exposed a county is to infection")
 
+st.markdown("text")
 # Load the data. The data is from the Our World in Data's github (https://github.com/owid/covid-19-data/tree/master/public/data). downloaded on 10/03/2024
 df = pd.read_csv("../Data/owid-covid-data.csv")
 
@@ -309,3 +311,6 @@ st.markdown("Text")
 
 # import tree picture at show it
 st.image('../Data/tree.png', use_column_width=True)
+
+st.markdown("Analysis of the hypothesis")
+st.markdown("Further investigation is required to evaluate the relationship between a country's Human Development Index (HDI) and its susceptibility to COVID-19 infection. What we've gathered so far, is thatMore regression analysis and correlation studies to determine whether there is a significant association between HDI and COVID-19 transmission rates.")
