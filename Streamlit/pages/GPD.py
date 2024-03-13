@@ -28,9 +28,8 @@ import json
 
 st.set_page_config(page_title="Vaccination rates", page_icon="📊")
 
-st.title("GPD pr Country affects Covid-19")
-st.markdown("Based on our first hypothesis, we want to investigate the relationship between a country's GPD and the number of Covid-19 cases.")
-st.markdown("Showing the relationship between GPD and Covid-19 cases.")
+st.title("How GPD pr Country affects Covid-19 cases?")
+st.markdown("Based on our first hypothesis, we want to investigate if there's a relationship between a country's GPD and the number of Covid-19 cases, as this could prove valuable information for authorities.")
 
 # Load the data. The data is from the Our World in Data's github (https://github.com/owid/covid-19-data/tree/master/public/data). downloaded on 10/03/2024
 df = pd.read_csv("../Data/owid-covid-data.csv")
@@ -98,7 +97,6 @@ last_row = data_hypothesis_1.groupby('location').last().reset_index()
 
 #last_row['date'].max() == last_row['date'].min()
 
-
 # Create a map of the world based on the latitude and longitude of each country and use iso_code to define the country that we're hovering over dataset in streamlit
 
 # Aggregate total cases by iso_code
@@ -162,8 +160,16 @@ st_folium(m, width=725, height=500)
 
 
 
-st.title("Cumulative Cases per Country")
-st.markdown("Text here.")
+
+
+st.title("Total cases per country")
+st.markdown("On the chart below, we get an overview of accumulative cases throughout the world.")
+st.markdown("The top three countries with most cases are:")
+st.markdown("1) United States")
+st.markdown("2) China")
+st.markdown("3) India.")
+st.markdown("These countries are also the most populated countries in the world, so it's not surprising that they have the most cases. However, it's interesting to see that the United States has the most cases, as it's a wealthy country with a high gdp per capita.")
+
 
 
 # graph of the cumulative cases per country
@@ -187,7 +193,8 @@ ax.set_ylabel('Number of Cumulative Cases')
 st.pyplot(fig)
 
 st.title("Total cases vs. GDP per capita")
-st.markdown("Based on the data, we can see that there is no correlation between a country's GDP and the number of Covid-19 cases.")
+st.markdown("Based on this scatterplot, we can see that there's no correlation between total cases and gdp per capita, as the data shows there's a somewhat even amount of cases throughout the different gdp per capita values.")
+st.markdown("One could argue that the countries with the highest gdp per capita have the lowest amount of cases, but the data shows that there's no correlation between the two variables. This is interesting, as one could argue that the wealthier countries would have better healthcare and therefore fewer cases, but this is not the case, as the data shows that there's no correlation between the two variables.")
 
 # Brug plt.subplots for at oprette en figur og akse
 fig, ax = plt.subplots(figsize=(10, 6))  # Juster størrelsen efter behov
