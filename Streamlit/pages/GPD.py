@@ -93,7 +93,7 @@ last_row = data_hypothesis_1.groupby('location').last().reset_index()
 
 #last_row['date'].max() == last_row['date'].min()
 
-st.title("Total cases per country")
+st.title("Cumulative Cases per Country")
 st.markdown("Text here.")
 
 
@@ -109,7 +109,7 @@ sns.barplot(x='location', y='total_cases', data=data_hypothesis_1_subset, ax=ax)
 
 # Tilpasser plot for bedre visning
 ax.set_xticklabels(ax.get_xticklabels(), rotation=45, horizontalalignment='right')
-ax.set_title('Cumulative Cases per Country')
+#ax.set_title('Cumulative Cases per Country')
 ax.set_xlabel('Country')
 ax.set_ylabel('Number of Cumulative Cases')
 
@@ -127,7 +127,7 @@ fig, ax = plt.subplots(figsize=(10, 6))  # Juster størrelsen efter behov
 sns.scatterplot(x='gdp_per_capita', y='total_cases', data=last_row, ax=ax)
 
 # Tilføj titel og aksebetegnelser
-ax.set_title('Total Cases vs. GDP per Capita')
+#ax.set_title('Total Cases vs. GDP per Capita')
 ax.set_xlabel('GDP per Capita')
 ax.set_ylabel('Total Cases')
 
@@ -135,27 +135,44 @@ ax.set_ylabel('Total Cases')
 # Viser plot i Streamlit
 st.pyplot(fig)
 
+st.title("Top 5 highest average total cases per country for each year")
+st.markdown("Text here.")
+
+
 data_hypo1['date'] = pd.to_datetime(data_hypo1['date'])
 
 years = data_hypo1['date'].dt.year.unique()
 
+# Bestem antallet af rækker og kolonner baseret på antallet af år. For simplicity, lader vi det være 3 kolonner.
+rows = len(years) // 3 + (1 if len(years) % 3 else 0)
 
-fig = plt.figure(figsize=(20, 20))
+fig, axs = plt.subplots(rows, 3, figsize=(20, 20))  # Ajuster antallet af rækker og størrelsen efter behov
 
-for i, y in enumerate(years, start=1):
-    plt.subplot(3, 2, i)
-     # get the avg total cases per country for the year
+for i, y in enumerate(years):
+    ax = axs[i // 3, i % 3] if rows > 1 else axs[i]  # Håndterer både enkelt og flere rækker af subplots
+    
+    # Beregn gennemsnittet af de totale tilfælde pr. land for året
     avg_total_cases = data_hypo1[data_hypo1['date'].dt.year == y].groupby('location')['total_cases'].mean()
     avg_total_cases = avg_total_cases.reset_index()
     avg_total_cases = avg_total_cases.sort_values(by='total_cases', ascending=False)
-    # get the top 5 countries
+    
+    # Vælg de top 5 lande
     top_5 = avg_total_cases.head(5)
-    plt.pie(top_5['total_cases'], labels=top_5['location'], autopct='%.1f%%',
-            startangle=90, shadow=True)
-    plt.title(y, fontsize=15)
+    
+    ax.pie(top_5['total_cases'], labels=top_5['location'], autopct='%.1f%%', startangle=90, shadow=True)
+    ax.set_title(y, fontsize=15)
 
-plt.suptitle('Top 5 highest average total cases per country foreach year', fontsize=20)
-plt.show()
+#fig.suptitle('Top 5 highest average total cases per country for each year', fontsize=20)
+
+# Fjerner tomme subplot-pladser, hvis antallet af år ikke fylder alle subplot
+for j in range(i + 1, rows * 3):
+    fig.delaxes(axs.flatten()[j])
+
+fig.tight_layout(rect=[0, 0.03, 1, 0.95])
+
+# Vis figuren i Streamlit
+st.pyplot(fig)
+
 
 class mul_lin_reg_model:
     r2_score_ = 0
