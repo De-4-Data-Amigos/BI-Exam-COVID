@@ -148,6 +148,11 @@ data_hypo2 = data_hypo2.dropna(subset=['total_vaccinations_per_hundred'])
 
 #data_hypo2.isnull().sum()/data_hypo2.shape[0]*100
 
+st.title("Histogram of Total Vaccinations per Hundred")
+st.markdown("In this section, we will explore the relationship between the number of Covid-19 cases and the vaccination rates.")
+st.markdown("As a starting point, we will visualize the distribution of the total vaccinations per hundred people.")
+st.markdown("The results will be presented in a histogram, showing that the majority of the countries have a vaccination rate of more ")
+
 # Plot histogram for 'total_vaccinations_per_hundred'
 fig, ax = plt.subplots()
 ax.hist(data_hypo2['total_vaccinations_per_hundred'], bins=30, color='blue')
@@ -205,6 +210,9 @@ nordic_countries = ['Denmark', 'Norge', 'Sweden', 'Finland', 'Greenland']
 figures = []
 
 
+st.title("Relationship between COVID-19 Cases and Vaccination Coverage in Nordic Countries")
+st.markdown("Text")
+
 # Filtrer dataene kun for nordic_countries
 nordic_data = data_hypothesis_2[data_hypothesis_2['location'].isin(nordic_countries)]
 
@@ -213,6 +221,9 @@ fig = px.scatter(nordic_data, x='total_vaccinations_per_hundred', y='total_cases
                  title='Relationship between COVID-19 Cases and Vaccination Coverage in Nordic Countries')
 st.plotly_chart(fig)
 
+
+st.title("Top 5 nordiske lande med det højeste gennemsnitlige antal sager for vaccinationsdækning per hundrede")
+st.markdown("Text")
 
 # filtrere data_hypothesis_2 for kun nordiske lande
 data_hypothesis_2_subset = data_hypothesis_2[data_hypothesis_2['location'].isin(nordic_countries)]
@@ -237,6 +248,9 @@ fig, ax = plt.subplots(figsize=(10, 6))
 for country in nordic_countries:
     country_data = data_hypothesis_2_subset[data_hypothesis_2_subset['location'] == country]
     ax.hist(country_data['total_cases'], bins=20, alpha=0.5, label=country)
+
+st.title("Fordelingen af antallet af tilfælde i de nordiske lande")
+st.markdown("Text")
 
 ax.set_title('Fordelingen af antallet af tilfælde i de nordiske lande')
 ax.set_xlabel('Antal tilfælde')
@@ -265,6 +279,9 @@ numerical_data_hypo2 = data_hypo2.select_dtypes(include='number')
 
 # Beregn korrelationskoefficienter
 correlation_matrix = numerical_data_hypo2.corr()
+
+st.title("Korrelationsheatmap")
+st.markdown("Text")
 
 # Lav en heatmap
 fig, ax = plt.subplots(figsize=(10, 8))
@@ -318,6 +335,9 @@ print(np.sqrt(metrics.mean_squared_error(y_test, y_predicted)))
 
 # R-squared
 r2_score(y_test, y_predicted)
+
+st.title("Multiple Linear Regression for Denmark")
+st.markdown("Text")
 
 # Visualise the regression results
 fig, ax = plt.subplots()
