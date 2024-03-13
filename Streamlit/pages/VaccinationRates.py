@@ -17,6 +17,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
 import plotly.express as px
 # Streamlit run ./Streamlit/app.py
+#Rasmus: cd C:\Users\rasmu\OneDrive\Skrivebord\4 sem\BI-Exam-COVID\Streamlit
 
 st.set_page_config(page_title="Vaccination rates", page_icon="📊")
 
@@ -211,7 +212,9 @@ figures = []
 
 
 st.title("Relationship between COVID-19 Cases and Vaccination Coverage in Nordic Countries")
-st.markdown("Text")
+st.markdown("A scatterplot to visualize how the nordic countries were affected by covid from present to four years back.")
+st.markdown("We can see how it first hit around winter 2020/2021 and how it evolved progressively during the first quarter of 2021.")
+st.markdown("During the winter of 2021/2022 the second wave hit, and the cases increased again. How vaccination covered this, is shown in the scatterplot below.")
 
 # Filtrer dataene kun for nordic_countries
 nordic_data = data_hypothesis_2[data_hypothesis_2['location'].isin(nordic_countries)]
@@ -226,7 +229,9 @@ st.plotly_chart(fig)
 nordic_data = data_hypothesis_2[data_hypothesis_2['location'].isin(nordic_countries)]
 
 st.title("Relationship between Vaccination Coverage and the timeperiod 2020-2024 in the Nordic Countries")
-st.markdown("Text")
+st.markdown("This scatterplot gives us an overview of vaccination coverage in the same period.")
+st.markdown("We can see how the vaccination coverage increased over time, and how the different nordic countries compare to each other in terms of vaccination coverage.") 
+st.markdown("The scatterplot is interactive, so you can hover over the points to see the exact values for each country and date.")
 
 # Opret et scatterplot med plotly
 fig = px.scatter(nordic_data, x='date', y='total_vaccinations_per_hundred', color='location', hover_name='location',
@@ -236,8 +241,9 @@ fig = px.scatter(nordic_data, x='date', y='total_vaccinations_per_hundred', colo
 # Vis plottet
 st.plotly_chart(fig)
 
-st.title("Top 5 nordiske lande med det højeste gennemsnitlige antal sager for vaccinationsdækning per hundrede")
-st.markdown("Text")
+st.title("Top 5 Nordic countries with the highest average number of cases for vaccination coverage per hundred")
+st.markdown("In the bar chart below, you can see the top 5 nordic countries with the highest average number of cases for vaccination coverage per hundred.")
+st.markdown("The countries are represented by colorful bars, where the color represents the total number of cases.")
 
 # filtrere data_hypothesis_2 for kun nordiske lande
 data_hypothesis_2_subset = data_hypothesis_2[data_hypothesis_2['location'].isin(nordic_countries)]
@@ -251,7 +257,7 @@ top_5_nordic_data = data_hypothesis_2_subset[data_hypothesis_2_subset['location'
 # søjlediagram med plotly for de nordiske lande med farvefulde søjler baseret på total_cases
 fig = px.bar(top_5_nordic_data, x='location', y='total_vaccinations_per_hundred', color='total_cases',
              labels={'total_vaccinations_per_hundred': 'Gennemsnitlig vaccinationsdækning per hundrede', 'location': 'Land'},
-             title='Top 5 nordiske lande med det højeste gennemsnitlige antal sager for vaccinationsdækning per hundrede')
+             title='Top 5 Nordic countries with the highest average number of cases for vaccination coverage per hundred')
 
 # Vis plottet på Streamlit side
 st.plotly_chart(fig)
@@ -263,12 +269,12 @@ for country in nordic_countries:
     country_data = data_hypothesis_2_subset[data_hypothesis_2_subset['location'] == country]
     ax.hist(country_data['total_cases'], bins=20, alpha=0.5, label=country)
 
-st.title("Fordelingen af antallet af tilfælde i de nordiske lande")
+st.title("Distribution of the number of cases in the Nordic countries")
 st.markdown("Text")
 
-ax.set_title('Fordelingen af antallet af tilfælde i de nordiske lande')
-ax.set_xlabel('Antal tilfælde')
-ax.set_ylabel('Antal observationer')
+ax.set_title('Distribution of the number of cases in the Nordic countries')
+ax.set_xlabel('Cases')
+ax.set_ylabel('Observations')
 ax.legend()
 
 # Vis plottet på Streamlit side
@@ -294,13 +300,13 @@ numerical_data_hypo2 = data_hypo2.select_dtypes(include='number')
 # Beregn korrelationskoefficienter
 correlation_matrix = numerical_data_hypo2.corr()
 
-st.title("Korrelationsheatmap")
+st.title("Correlation Matrix for the Nordic countries")
 st.markdown("Text")
 
 # Lav en heatmap
 fig, ax = plt.subplots(figsize=(10, 8))
 sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f", linewidths=.5)
-ax.set_title('Korrelationsheatmap')
+ax.set_title('Correlation Matrix')
 
 # Vis plottet på Streamlit side
 st.pyplot(fig)
