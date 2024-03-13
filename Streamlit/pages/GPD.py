@@ -96,10 +96,6 @@ last_row = data_hypothesis_1.groupby('location').last().reset_index()
 
 #last_row['date'].max() == last_row['date'].min()
 
-<<<<<<< Updated upstream
-st.title("Cumulative Cases per Country")
-st.markdown("Text here.")
-=======
 st.title("Total cases per country")
 st.markdown("On the chart below, we get an overview of accumulative cases throughout the world.")
 st.markdown("The top three countries with most cases are:")
@@ -107,7 +103,6 @@ st.markdown("1) United States")
 st.markdown("2) China")
 st.markdown("3) India.")
 st.markdown("These countries are also the most populated countries in the world, so it's not surprising that they have the most cases. However, it's interesting to see that the United States has the most cases, as it's a wealthy country with a high gdp per capita.")
->>>>>>> Stashed changes
 
 
 # graph of the cumulative cases per country
