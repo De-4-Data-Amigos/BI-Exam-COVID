@@ -1,6 +1,9 @@
 import os
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
+#To run this file, use the following command in the terminal:
+#streamlit run ./Streamlit/app.py
+
 import streamlit as st
 from streamlit_option_menu import option_menu
 
