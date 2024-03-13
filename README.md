@@ -10,7 +10,7 @@ Datamatiker, 4 sem., Cph Business Lyngby
 # Link to our miro-board:
 [https://miro.com/app/board/uXjVNrBg1Yo=/](https://miro.com/app/board/uXjVNrBg1Yo=/?share_link_id=159207872113)https://miro.com/app/board/uXjVNrBg1Yo=/?share_link_id=159207872113
 
-# Idea for a problem statement:
+# Problem statement:
 In the context of the COVID-19 pandemic, healthcare systems worldwide have been under unprecedented stress due to the dynamic and rapid spread of the virus. There is a critical need to optimize resource allocation, improve patient outcomes, and enhance the efficiency of public health responses. Our COVID-19 dataset contains detailed information on virus spread, healthcare system strain, and population demographics. We aim to leverage Business Intelligence (BI) tools to analyze this data to try and identify patterns, predict healthcare needs, and support decision-making processes and thus lessen the burden on society.
 
 # Motivation
