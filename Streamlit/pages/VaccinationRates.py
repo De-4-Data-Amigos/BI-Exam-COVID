@@ -165,7 +165,7 @@ st.pyplot(fig)
 nordic_countries = ['Denmark', 'Norway', 'Sweden', 'Finland', 'Greenland']
 
 # Copy the necessary columns to the hypothesis 2 dataframe
-data_hypothesis_2 = data_hypo2[['location', 'total_cases', 'total_vaccinations_per_hundred', 'population_density']]
+data_hypothesis_2 = data_hypo2[['location', 'total_cases', 'total_vaccinations_per_hundred', 'population_density', 'date']]
 
 # Create empty dictionaries to store data for each Nordic country
 nordic_data = {}
@@ -181,7 +181,7 @@ for country, country_data in nordic_data.items():
 
 
 # Copy the necessary columns to the hypothesis 2 dataframe
-data_hypothesis_2 = data_hypo2[['location', 'total_cases', 'total_vaccinations_per_hundred', 'population_density']]
+data_hypothesis_2 = data_hypo2[['location', 'total_cases', 'total_vaccinations_per_hundred', 'population_density', 'date']]
 denmark_data = data_hypothesis_2[data_hypothesis_2['location'] == 'Denmark']
 norge_data = data_hypothesis_2[data_hypothesis_2['location'] == 'Norway']
 sweden_data = data_hypothesis_2[data_hypothesis_2['location'] == 'Sweden']
@@ -216,11 +216,25 @@ st.markdown("Text")
 # Filtrer dataene kun for nordic_countries
 nordic_data = data_hypothesis_2[data_hypothesis_2['location'].isin(nordic_countries)]
 
-fig = px.scatter(nordic_data, x='total_vaccinations_per_hundred', y='total_cases', color='location', hover_name='location',
-                 labels={'total_cases': 'Total COVID-19 Cases', 'total_vaccinations_per_hundred': 'Vaccinations per Hundred'},
-                 title='Relationship between COVID-19 Cases and Vaccination Coverage in Nordic Countries')
+# Opret et scatterplot med plotly
+fig = px.scatter(nordic_data, x='date', y='total_cases', color='location', hover_name='location',
+                 labels={'date': 'Date', 'total_cases': 'Total COVID-19 Cases'},
+                 title='Relationship between COVID-19 Cases and the timeperiod 2020-2024 in the Nordic Countries')
 st.plotly_chart(fig)
 
+# Filtrer dataene kun for nordic_countries
+nordic_data = data_hypothesis_2[data_hypothesis_2['location'].isin(nordic_countries)]
+
+st.title("Relationship between Vaccination Coverage and the timeperiod 2020-2024 in the Nordic Countries")
+st.markdown("Text")
+
+# Opret et scatterplot med plotly
+fig = px.scatter(nordic_data, x='date', y='total_vaccinations_per_hundred', color='location', hover_name='location',
+                 labels={'date': 'Date', 'total_vaccinations_per_hundred': 'Vaccinations per Hundred'},
+                 title='Relationship between Vaccination Coverage and the timeperiod 2020-2024 in the Nordic Countries')
+
+# Vis plottet
+st.plotly_chart(fig)
 
 st.title("Top 5 nordiske lande med det højeste gennemsnitlige antal sager for vaccinationsdækning per hundrede")
 st.markdown("Text")
