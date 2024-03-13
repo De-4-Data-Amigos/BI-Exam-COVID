@@ -29,6 +29,9 @@ import json
 st.set_page_config(page_title="GPD", page_icon="📊")
 
 st.title("How GPD pr Country affects Covid-19 cases?")
+st.markdown("Hypothesis 1:")
+st.markdown("'We do not believe that there is a correlation between the number of infected individuals in relation to a country's Gross National Product (GNP) per capita.'")
+ 
 st.markdown("Based on our first hypothesis, we want to investigate if there's a relationship between a country's GPD and the number of Covid-19 cases, as this could prove valuable information for authorities.")
 
 # Load the data. The data is from the Our World in Data's github (https://github.com/owid/covid-19-data/tree/master/public/data). downloaded on 10/03/2024

@@ -24,6 +24,9 @@ st.set_page_config(page_title="Vaccination rates", page_icon="📊")
 
 
 st.title("Vaccination rates")
+st.markdown("Hypothesis 2:")
+st.markdown("'We believe there is a connection between a country's population density and the number of COVID-19 cases, where higher population density correlates with more COVID-19 cases. That is to say, countries with more cases also had higher vaccination coverage.'")
+
 st.markdown("Based on our second hypothesis, we want to investigate the relationship between the number of Covid-19 cases and the vaccination rates.")
 
 
