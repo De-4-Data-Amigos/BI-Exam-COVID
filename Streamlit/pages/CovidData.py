@@ -224,29 +224,36 @@ y_min = y.min()
 y_max = y.max()
 
 
+
+
+#TODO: VIRKER IKKE
+
 from yellowbrick.cluster import SilhouetteVisualizer
 from sklearn.metrics import silhouette_score
 
+# Instantiate a visualizer with the number of clusters
+k = 6
+model = KMeans(n_clusters=k, n_init=10)
+model.fit_predict(X)
+
+from sklearn.metrics import silhouette_score
+
+# Calculate the silhouette score
+score = silhouette_score(X, model.labels_, metric='euclidean')
+print('Silhouette Score: %.3f' % score)
 
 
-k = 5
-model = KMeans(n_clusters=k, random_state=42)
-model.fit(X)  # Antager at X er defineret og er dit datasæt
-
-# Opretter SilhouetteVisualizer med den fittede model
+# Visualize the silhouette scores of all points
 visualizer = SilhouetteVisualizer(model, colors='yellowbrick')
-
-# Passer data til visualizeren
 visualizer.fit(X)
-
-# Streamlit's st.pyplot() funktion forventer en matplotlib figur.
-# Yellowbrick's visualizer har en attribut 'fig', som er den figur, visualizeren tegner på.
-# Vi kan vise denne figur direkte i Streamlit uden yderligere at skulle oprette figurer eller akser.
-st.pyplot(visualizer.fig)
+visualizer.show()  
 
 
 
 
+
+
+#
 # Convert the dataset into array
 array = last_row[['human_development_index', 'total_cases', 'cluster_label']].values
 
@@ -290,30 +297,15 @@ gr_data = tree.export_graphviz(classifier, out_file=None,
 dtree = graphviz.Source(gr_data) 
 #dtree 
 
+st.title("Silhouette Score")
+st.markdown("Text")
 
-# Predict the labels of the test data
-y_testp = classifier.predict(X_test)
-#y_testp
-
-# Calculated the accuracy of the model comparing the observed data and predicted data
-print ("Accuracy is ", accuracy_score(y_test,y_testp))
+#import silhoutte picture at show it
+st.image('../Data/silhouette.png', use_column_width=True)
 
 
-# Create confusion matrix
-confusion_mat = confusion_matrix(y_test,y_testp)
-#confusion_mat
+st.title("Decision Tree")
+st.markdown("Text")
 
-confusion = pd.crosstab(y_test,y_testp)
-#confusion
-
-# Classifier performance on training dataset
-class_names = ['Class0', 'Class1', 'Class2','Class3', 'Class4', 'Class5']
-print(classification_report(y_train, classifier.predict(X_train), target_names=class_names))
-plt.show()
-
-model = GaussianNB()
-model.fit(X_train, y_train)
-
-# test the model on the test set
-model.score(X_test, y_test)
-
+# import tree picture at show it
+st.image('../Data/tree.png', use_column_width=True)
