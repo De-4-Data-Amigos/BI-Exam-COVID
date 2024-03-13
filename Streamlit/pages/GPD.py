@@ -196,6 +196,13 @@ ax.set_ylabel('Number of Cumulative Cases')
 # Viser plot i Streamlit
 st.pyplot(fig)
 
+st.title("GDP Cer Capita")
+st.markdown("Text")
+
+#import silhoutte picture at show it
+st.image('../Data/cumulative.png', use_column_width=True)
+
+
 st.title("Total cases vs. GDP per capita")
 st.markdown("Based on this scatterplot, we can see that there's no correlation between total cases and gdp per capita, as the data shows there's a somewhat even amount of cases throughout the different gdp per capita values.")
 st.markdown("One could argue that the countries with the highest gdp per capita have the lowest amount of cases, but the data shows that there's no correlation between the two variables. This is interesting, as one could argue that the wealthier countries would have better healthcare and therefore fewer cases, but this is not the case, as the data shows that there's no correlation between the two variables.")
@@ -306,3 +313,8 @@ for country_name in countries_and_models:
 
 st.title("Analysis of the hypothesis")
 st.markdown("Through exploratory data analysis and regression modeling, we did not find hard evidence suggesting a significant correlation between a country's GNP per capita and the number of COVID-19 cases. Higher GNP per capita countries tended to have higher numbers of COVID-19 cases, indicating a potential relationship between economic prosperity and virus transmission, but the data did not really support this enough.")
+st.title("Linear Regression")
+st.markdown("Text")
+
+#import silhoutte picture at show it
+st.image('../Data/Linear2.png', use_column_width=True)

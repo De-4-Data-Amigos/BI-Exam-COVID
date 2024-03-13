@@ -163,7 +163,10 @@ ax.hist(data_hypo2['total_vaccinations_per_hundred'], bins=30, color='blue')
 ax.set_title('Histogram of Total Vaccinations per Hundred')
 ax.set_xlabel('Total Vaccinations per Hundred')
 ax.set_ylabel('Frequency')
-st.pyplot(fig)
+#st.pyplot(fig)
+
+#import silhoutte picture at show it
+st.image('../Data/Histogram.png', use_column_width=True)
 
 # List of Nordic countries
 nordic_countries = ['Denmark', 'Norway', 'Sweden', 'Finland', 'Greenland']
@@ -217,6 +220,52 @@ nordic_countries = ['Denmark', 'Norway', 'Sweden', 'Finland', 'Greenland']
 
 # Create an empty list to store the plots
 figures = []
+
+
+st.title("Simple 3D Scatter Plt")
+st.markdown("Text")
+
+#import silhoutte picture at show it
+st.image('../Data/simple3d.png', use_column_width=True)
+
+
+
+
+from matplotlib import cm
+
+
+# Din eksisterende kode til at forberede data
+last_row_subset = data_hypo2.groupby('location').last().reset_index()
+
+# Brug en colormap (f.eks. 'viridis') og normaliser dine data baseret på 'total_cases' for bedre farvedifferentiering
+norm = plt.Normalize(last_row_subset['total_cases'].min(), last_row_subset['total_cases'].max())
+colors = cm.viridis(norm(last_row_subset['total_cases']))
+
+fig = plt.figure(figsize=(6, 6))
+ax = fig.add_subplot(projection='3d')
+# Brug 'colors' i stedet for en statisk farve
+sc = ax.scatter3D(last_row_subset['population_density'], last_row_subset['total_vaccinations_per_hundred'], last_row_subset['total_cases'], c=colors)
+ax.set_title("Simple 3D Scatter Plot")
+ax.set_xlabel('Population Density')
+ax.set_ylabel('Total Vaccinations per Hundred')
+ax.set_zlabel('Total Cases')
+
+# Tilføj en farvebar for at forklare, hvad farverne repræsenterer
+cbar = fig.colorbar(cm.ScalarMappable(norm=norm, cmap='viridis'), ax=ax)
+cbar.set_label('Total Cases')
+
+#st.pyplot(fig)
+
+st.title("3D Scatter Plot")
+st.markdown("Text")
+
+fig = px.scatter_3d(last_row_subset, x="population_density", y="total_vaccinations_per_hundred", z='total_cases', color="population_density",
+                    size='total_vaccinations_per_hundred', size_max=40, opacity=0.8,
+                    color_continuous_scale=px.colors.sequential.Viridis) # Ændrer til et mere distinkt farveskema
+
+st.plotly_chart(fig)
+
+
 
 
 st.title("Relationship between COVID-19 Cases and Vaccination Coverage in Nordic Countries")
