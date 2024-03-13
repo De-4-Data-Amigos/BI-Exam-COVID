@@ -21,6 +21,7 @@ from sklearn.model_selection import train_test_split
 import folium
 #!pip install streamlit-folium
 from streamlit_folium import st_folium
+import json
 
 
 # Streamlit run ./Streamlit/app.py
@@ -96,6 +97,71 @@ last_row = data_hypothesis_1.groupby('location').last().reset_index()
 
 #last_row['date'].max() == last_row['date'].min()
 
+# Create a map of the world based on the latitude and longitude of each country and use iso_code to define the country that we're hovering over dataset in streamlit
+
+# Aggregate total cases by iso_code
+country_cases = data_hypo1.groupby('iso_code')['total_cases'].sum().reset_index()
+
+# Formater nummeret til tusinder og fjern de sidste tre cifre og det sidste komma
+def format_number(number):
+    number_in_thousands = number // 1000  # Dividerer med 1000 og afrunder til nærmeste hele tal
+    return f"{number_in_thousands:,.0f}".replace(",", ".")
+
+# Korrekt funktion til at specificere UTF-8-kodning og tilføje formaterede total_cases
+def load_and_merge_geojson(geojson_path, covid_data):
+    with open(geojson_path, 'r', encoding='utf-8') as f:  # Angiv kodning her
+        geojson = json.load(f)
+    
+    for feature in geojson['features']:
+        iso_code = feature['properties'].get('iso_a3')  # Antager at ISO-koderne er gemt under 'iso_a3'
+        if iso_code:
+            total_cases = covid_data.loc[covid_data['iso_code'] == iso_code, 'total_cases'].values
+            if total_cases.size > 0:
+                feature['properties']['total_cases'] = format_number(int(total_cases[0]))
+            else:
+                feature['properties']['total_cases'] = "Data ikke tilgængelig"
+    return geojson
+
+# Initialiserer et Folium-kort centreret på en global visning
+m = folium.Map(location=[20, 0], zoom_start=2)
+
+# Funktion til at tilføje et GeoJSON-lag til kortet
+def add_geojson_layer(geojson_data, map_object, layer_name):
+    folium.GeoJson(
+        data=geojson_data,
+        name=layer_name,
+        tooltip=folium.GeoJsonTooltip(
+            fields=['name', 'total_cases'],
+            aliases=['Land: ', 'Total tilfælde: '],
+            localize=True
+        )
+    ).add_to(map_object)
+
+# Indlæser og tilføjer hvert kontinents GeoJSON til kortet
+geojson_paths = {
+    'Europe': '../Data/GeoMaps/EU Map.json', 
+    'North America': '../Data/GeoMaps/NA Map.json',
+    'South America': '../Data/GeoMaps/SA Map.json', 
+    'Africa': '../Data/GeoMaps/Africa Map.json',
+    'Asia': '../Data/GeoMaps/Asia Map.json'
+}
+
+for continent, path in geojson_paths.items():
+    geojson_data = load_and_merge_geojson(path, country_cases)
+    add_geojson_layer(geojson_data, m, continent)
+
+# Tilføjer et lagkontrolpanel til kortet
+folium.LayerControl().add_to(m)
+
+# Viser kortet i Streamlit
+st_folium(m, width=725, height=500)
+
+
+
+
+
+
+
 st.title("Total cases per country")
 st.markdown("On the chart below, we get an overview of accumulative cases throughout the world.")
 st.markdown("The top three countries with most cases are:")
@@ -103,6 +169,7 @@ st.markdown("1) United States")
 st.markdown("2) China")
 st.markdown("3) India.")
 st.markdown("These countries are also the most populated countries in the world, so it's not surprising that they have the most cases. However, it's interesting to see that the United States has the most cases, as it's a wealthy country with a high gdp per capita.")
+
 
 
 # graph of the cumulative cases per country
@@ -234,21 +301,3 @@ for country_name in countries_and_models:
     print(f"{model.country_name}: mae: {model.MAE}, mse: {model.MSE}, rmse: {model.RMSE}, r2_score: {model.r2_score_}, eV: {model.eV}")
 
 
-# Generer et Folium-kort
-def generate_map(df):
-    # Start kortet ved et globalt udsnit
-    m = folium.Map(location=[0, 0], zoom_start=2)
-
-    # Tilføj markører for hvert land
-    for _, row in df.iterrows():
-        folium.Marker(
-            location=[row['latitude'], row['longitude']],
-            popup=f"{row['country_name']}: {row['total_cases']} total cases",
-            icon=folium.Icon(color='red', icon='info-sign')
-        ).add_to(m)
-    
-    # Vis kortet i Streamlit
-    st_folium(m, width=725, height=500)
-
-# Du skal muligvis tilpasse din dataforberedelse for at matche dette eksempel
-generate_map(df)
