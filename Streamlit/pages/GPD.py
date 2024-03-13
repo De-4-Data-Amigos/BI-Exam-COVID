@@ -26,7 +26,7 @@ import json
 
 # Streamlit run ./Streamlit/app.py
 
-st.set_page_config(page_title="Vaccination rates", page_icon="📊")
+st.set_page_config(page_title="GPD", page_icon="📊")
 
 st.title("How GPD pr Country affects Covid-19 cases?")
 st.markdown("Based on our first hypothesis, we want to investigate if there's a relationship between a country's GPD and the number of Covid-19 cases, as this could prove valuable information for authorities.")
@@ -99,6 +99,7 @@ last_row = data_hypothesis_1.groupby('location').last().reset_index()
 
 # Create a map of the world based on the latitude and longitude of each country and use iso_code to define the country that we're hovering over dataset in streamlit
 
+st.title("Interactive map of total cases per country")
 # Aggregate total cases by iso_code
 country_cases = data_hypo1.groupby('iso_code')['total_cases'].sum().reset_index()
 
@@ -212,7 +213,7 @@ ax.set_ylabel('Total Cases')
 st.pyplot(fig)
 
 st.title("Top 5 highest average total cases per country for each year")
-st.markdown("Text here.")
+st.markdown("Below we've divided the highest average total cases per year into each years own piechart. This should help visualize how hard some countries were affected by covid throughout the years.")
 
 
 data_hypo1['date'] = pd.to_datetime(data_hypo1['date'])
