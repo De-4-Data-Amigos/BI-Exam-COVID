@@ -2,7 +2,7 @@ import os
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 #To run this file, use the following command in the terminal:
-#streamlit run ./Streamlit/app.py
+#streamlit run ./Streamlit/Welcome.py
 #Rasmus: cd C:\Users\rasmu\OneDrive\Skrivebord\4 sem\BI-Exam-COVID\
 
 

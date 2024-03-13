@@ -307,7 +307,7 @@ st.image('../Data/silhouette.png', use_column_width=True)
 
 
 st.title("Decision Tree")
-st.markdown("Using the decision tree, we can try and predict what cluster a country should go into using the HDI and total cases. Using mathematics, it predicts the cluster, and as we can see, the countries with the highest Human Development Index are in the same cluster, and the countries with the lowest Human Development.")
+st.markdown("Using the decision tree, we can try and predict what cluster a country should go into using the HDI and total cases. Using mathematics, it predicts the cluster, and as we can see, the countries with the highest Human Development Index are in the same cluster, and the countries with the lowest Human Development Index.")
 
 # import tree picture at show it
 st.image('../Data/tree.png', use_column_width=True)

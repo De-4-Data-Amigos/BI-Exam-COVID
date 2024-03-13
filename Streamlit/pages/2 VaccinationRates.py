@@ -16,7 +16,7 @@ from scipy import stats
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
 import plotly.express as px
-# Streamlit run ./Streamlit/app.py
+# Streamlit run ./Streamlit/Welcome.py
 #Rasmus: cd C:\Users\rasmu\OneDrive\Skrivebord\4 sem\BI-Exam-COVID\
 
 st.set_page_config(page_title="Vaccination rates", page_icon="📊")

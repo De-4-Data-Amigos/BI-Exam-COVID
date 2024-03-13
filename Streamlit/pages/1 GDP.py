@@ -26,13 +26,13 @@ import json
 
 # Streamlit run ./Streamlit/app.py
 
-st.set_page_config(page_title="GPD", page_icon="📊")
+st.set_page_config(page_title="GDP", page_icon="📊")
 
-st.title("How GPD pr Country affects Covid-19 cases?")
+st.title("How GDP pr Country affects Covid-19 cases?")
 st.markdown("Hypothesis 1:")
-st.markdown("'We do not believe that there is a correlation between the number of infected individuals in relation to a country's Gross National Product (GNP) per capita.'")
+st.markdown("'We do not believe that there is a correlation between the number of infected individuals in relation to a country's Gross Domestic Product (GDP) per capita.'")
  
-st.markdown("Based on our first hypothesis, we want to investigate if there's a relationship between a country's GPD and the number of Covid-19 cases, as this could prove valuable information for authorities.")
+st.markdown("Based on our first hypothesis, we want to investigate if there's a relationship between a country's GDP and the number of Covid-19 cases, as this could prove valuable information for authorities.")
 
 # Load the data. The data is from the Our World in Data's github (https://github.com/owid/covid-19-data/tree/master/public/data). downloaded on 10/03/2024
 df = pd.read_csv("../Data/owid-covid-data.csv")
@@ -261,60 +261,63 @@ fig.tight_layout(rect=[0, 0.03, 1, 0.95])
 st.pyplot(fig)
 
 
-class mul_lin_reg_model:
-    r2_score_ = 0
-    MAE = 0
-    MSE = 0
-    RMSE = 0
+#class mul_lin_reg_model:
+#    r2_score_ = 0
+#    MAE = 0
+#    MSE = 0
+#    RMSE = 0
+#
+#    eV = 0
+#
+#    def __init__(self, X, y, name):
+#        self.country_name = name
+#        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(X, y,  random_state=123, test_size=0.15)
+#        self.linreg = LinearRegression()
+#        self.linreg.fit(self.X_train, self.y_train)
+#    def predict(self, input):
+#        return self.linreg.predict(input)
+#    
+#    def do_scoring_(self, y_test, y_predicted):
+#        self.MAE = metrics.mean_absolute_error(y_test, y_predicted) 
+#        self.MSE = metrics.mean_squared_error(y_test, y_predicted)
+#        self.RMSE = np.sqrt(metrics.mean_squared_error(y_test, y_predicted))
+#        self.eV = round(sm.explained_variance_score(y_test, y_predicted), 2)
+#        self.r2_score_ = r2_score(y_test, y_predicted)
+#
+#def train_mul_lin_reg_by_name(country_name, dataset):
+#    country_subset = dataset[dataset['location'] == country_name]
+#    x_col = 'gdp_per_capita'
+#    y_col = 'total_cases'
+#    X = country_subset[x_col].values.reshape(-1, 1)
+#    y = country_subset[y_col].values.reshape(-1, 1)
+#    return mul_lin_reg_model(X,y, name)
 
-    eV = 0
-
-    def __init__(self, X, y, name):
-        self.country_name = name
-        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(X, y,  random_state=123, test_size=0.15)
-        self.linreg = LinearRegression()
-        self.linreg.fit(self.X_train, self.y_train)
-    def predict(self, input):
-        return self.linreg.predict(input)
-    
-    def do_scoring_(self, y_test, y_predicted):
-        self.MAE = metrics.mean_absolute_error(y_test, y_predicted) 
-        self.MSE = metrics.mean_squared_error(y_test, y_predicted)
-        self.RMSE = np.sqrt(metrics.mean_squared_error(y_test, y_predicted))
-        self.eV = round(sm.explained_variance_score(y_test, y_predicted), 2)
-        self.r2_score_ = r2_score(y_test, y_predicted)
-
-def train_mul_lin_reg_by_name(country_name, dataset):
-    country_subset = dataset[dataset['location'] == country_name]
-    x_col = 'gdp_per_capita'
-    y_col = 'total_cases'
-    X = country_subset[x_col].values.reshape(-1, 1)
-    y = country_subset[y_col].values.reshape(-1, 1)
-    return mul_lin_reg_model(X,y, name)
-
-import random
-amount_of_countries = 5
-countries_names = random.choices(data_hypo1['location'].unique(), k=amount_of_countries)
-countries_and_models = {}
-for name in countries_names:
-    countries_and_models[name] = train_mul_lin_reg_by_name(name, data_hypo1)
-    print(f"Added {name} to dict.")
+#import random
+#amount_of_countries = 5
+#countries_names = random.choices(data_hypo1['location'].unique(), k=amount_of_countries)
+#countries_and_models = {}
+#for name in countries_names:
+#    countries_and_models[name] = train_mul_lin_reg_by_name(name, data_hypo1)
+#    print(f"Added {name} to dict.")
 
 
-countries_and_model_prediction = {}
-for country_name in countries_and_models:
-    model = countries_and_models[country_name]
-    predictions = model.predict(model.y_test)
-    countries_and_model_prediction[country_name] = predictions
+#countries_and_model_prediction = {}
+#for country_name in countries_and_models:
+    #model = countries_and_models[country_name]
+    #predictions = model.predict(model.y_test)
+    #countries_and_model_prediction[country_name] = predictions
     #print(predictions)
-    model.do_scoring_(model.y_test, predictions)
-    countries_and_models[country_name] = model
-    print(f"{model.country_name}: mae: {model.MAE}, mse: {model.MSE}, rmse: {model.RMSE}, r2_score: {model.r2_score_}, eV: {model.eV}")
+    #model.do_scoring_(model.y_test, predictions)
+    #countries_and_models[country_name] = model
+    #print(f"{model.country_name}: mae: {model.MAE}, mse: {model.MSE}, rmse: {model.RMSE}, r2_score: {model.r2_score_}, eV: {model.eV}")
 
-st.title("Analysis of the hypothesis")
-st.markdown("Through exploratory data analysis and regression modeling, we did not find hard evidence suggesting a significant correlation between a country's GNP per capita and the number of COVID-19 cases. Higher GNP per capita countries tended to have higher numbers of COVID-19 cases, indicating a potential relationship between economic prosperity and virus transmission, but the data did not really support this enough.")
+
 st.title("Linear Regression")
-st.markdown("Text")
+st.markdown("For this linear regression model, we can see that it's not a good model, as the correlation between the two features goes apart. This is seen as the data seems scattered throughout, and not as linear regression is usually visualized; as a line going from bottom left towards top right of the graph. Our graph shows no such obvious line, and therefore we can conclude that there's no or very little correlation between the two features.")
 
 #import silhoutte picture at show it
 st.image('../Data/Linear2.png', use_column_width=True)
+
+st.title("Analysis of the hypothesis")
+st.markdown("Through exploratory data analysis and regression modeling, we did not find hard evidence suggesting a significant correlation between a country's GDP per capita and the number of COVID-19 cases. Higher GDP per capita countries tended to have higher numbers of COVID-19 cases, indicating a potential relationship between economic prosperity and virus transmission, but the data did not really support this enough.")
+
