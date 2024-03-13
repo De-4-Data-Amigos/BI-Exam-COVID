@@ -27,7 +27,9 @@ The design of our project is seen in Streamlit. Each hypothesis has it's own pag
 
 # Implementation instructions
 Make sure you have the right libraries imported installed (folium, seaborn, plotly etc). See below for a full list of libraries.
+
 Make sure pathing to the .csv files are correct (they're inside the ./Data folder)
+
 Make sure Streamlit is correctly installed (perhaps through Anaconda + keep 'environment' in mind)
 
 # Artefacts
