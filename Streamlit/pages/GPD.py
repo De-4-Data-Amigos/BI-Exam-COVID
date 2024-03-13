@@ -18,14 +18,17 @@ from sklearn.metrics import r2_score
 import plotly.express as px
 import sklearn.metrics as sm
 from sklearn.model_selection import train_test_split
+import folium
+#!pip install streamlit-folium
+from streamlit_folium import st_folium
+
 
 # Streamlit run ./Streamlit/app.py
 
 st.set_page_config(page_title="Vaccination rates", page_icon="📊")
 
-st.title("GPD pr Country affects Covid-19")
-st.markdown("Based on our first hypothesis, we want to investigate the relationship between a country's GPD and the number of Covid-19 cases.")
-st.markdown("Showing the relationship between GPD and Covid-19 cases.")
+st.title("How GPD pr Country affects Covid-19 cases?")
+st.markdown("Based on our first hypothesis, we want to investigate if there's a relationship between a country's GPD and the number of Covid-19 cases, as this could prove valuable information for authorities.")
 
 # Load the data. The data is from the Our World in Data's github (https://github.com/owid/covid-19-data/tree/master/public/data). downloaded on 10/03/2024
 df = pd.read_csv("../Data/owid-covid-data.csv")
@@ -94,7 +97,12 @@ last_row = data_hypothesis_1.groupby('location').last().reset_index()
 #last_row['date'].max() == last_row['date'].min()
 
 st.title("Total cases per country")
-st.markdown("Text here.")
+st.markdown("On the chart below, we get an overview of accumulative cases throughout the world.")
+st.markdown("The top three countries with most cases are:")
+st.markdown("1) United States")
+st.markdown("2) China")
+st.markdown("3) India.")
+st.markdown("These countries are also the most populated countries in the world, so it's not surprising that they have the most cases. However, it's interesting to see that the United States has the most cases, as it's a wealthy country with a high gdp per capita.")
 
 
 # graph of the cumulative cases per country
@@ -109,7 +117,7 @@ sns.barplot(x='location', y='total_cases', data=data_hypothesis_1_subset, ax=ax)
 
 # Tilpasser plot for bedre visning
 ax.set_xticklabels(ax.get_xticklabels(), rotation=45, horizontalalignment='right')
-ax.set_title('Cumulative Cases per Country')
+#ax.set_title('Cumulative Cases per Country')
 ax.set_xlabel('Country')
 ax.set_ylabel('Number of Cumulative Cases')
 
@@ -118,7 +126,8 @@ ax.set_ylabel('Number of Cumulative Cases')
 st.pyplot(fig)
 
 st.title("Total cases vs. GDP per capita")
-st.markdown("Based on the data, we can see that there is no correlation between a country's GDP and the number of Covid-19 cases.")
+st.markdown("Based on this scatterplot, we can see that there's no correlation between total cases and gdp per capita, as the data shows there's a somewhat even amount of cases throughout the different gdp per capita values.")
+st.markdown("One could argue that the countries with the highest gdp per capita have the lowest amount of cases, but the data shows that there's no correlation between the two variables. This is interesting, as one could argue that the wealthier countries would have better healthcare and therefore fewer cases, but this is not the case, as the data shows that there's no correlation between the two variables.")
 
 # Brug plt.subplots for at oprette en figur og akse
 fig, ax = plt.subplots(figsize=(10, 6))  # Juster størrelsen efter behov
@@ -127,7 +136,7 @@ fig, ax = plt.subplots(figsize=(10, 6))  # Juster størrelsen efter behov
 sns.scatterplot(x='gdp_per_capita', y='total_cases', data=last_row, ax=ax)
 
 # Tilføj titel og aksebetegnelser
-ax.set_title('Total Cases vs. GDP per Capita')
+#ax.set_title('Total Cases vs. GDP per Capita')
 ax.set_xlabel('GDP per Capita')
 ax.set_ylabel('Total Cases')
 
@@ -135,27 +144,44 @@ ax.set_ylabel('Total Cases')
 # Viser plot i Streamlit
 st.pyplot(fig)
 
+st.title("Top 5 highest average total cases per country for each year")
+st.markdown("Text here.")
+
+
 data_hypo1['date'] = pd.to_datetime(data_hypo1['date'])
 
 years = data_hypo1['date'].dt.year.unique()
 
+# Bestem antallet af rækker og kolonner baseret på antallet af år. For simplicity, lader vi det være 3 kolonner.
+rows = len(years) // 3 + (1 if len(years) % 3 else 0)
 
-fig = plt.figure(figsize=(20, 20))
+fig, axs = plt.subplots(rows, 3, figsize=(20, 20))  # Ajuster antallet af rækker og størrelsen efter behov
 
-for i, y in enumerate(years, start=1):
-    plt.subplot(3, 2, i)
-     # get the avg total cases per country for the year
+for i, y in enumerate(years):
+    ax = axs[i // 3, i % 3] if rows > 1 else axs[i]  # Håndterer både enkelt og flere rækker af subplots
+    
+    # Beregn gennemsnittet af de totale tilfælde pr. land for året
     avg_total_cases = data_hypo1[data_hypo1['date'].dt.year == y].groupby('location')['total_cases'].mean()
     avg_total_cases = avg_total_cases.reset_index()
     avg_total_cases = avg_total_cases.sort_values(by='total_cases', ascending=False)
-    # get the top 5 countries
+    
+    # Vælg de top 5 lande
     top_5 = avg_total_cases.head(5)
-    plt.pie(top_5['total_cases'], labels=top_5['location'], autopct='%.1f%%',
-            startangle=90, shadow=True)
-    plt.title(y, fontsize=15)
+    
+    ax.pie(top_5['total_cases'], labels=top_5['location'], autopct='%.1f%%', startangle=90, shadow=True)
+    ax.set_title(y, fontsize=15)
 
-plt.suptitle('Top 5 highest average total cases per country foreach year', fontsize=20)
-plt.show()
+#fig.suptitle('Top 5 highest average total cases per country for each year', fontsize=20)
+
+# Fjerner tomme subplot-pladser, hvis antallet af år ikke fylder alle subplot
+for j in range(i + 1, rows * 3):
+    fig.delaxes(axs.flatten()[j])
+
+fig.tight_layout(rect=[0, 0.03, 1, 0.95])
+
+# Vis figuren i Streamlit
+st.pyplot(fig)
+
 
 class mul_lin_reg_model:
     r2_score_ = 0
@@ -206,3 +232,23 @@ for country_name in countries_and_models:
     model.do_scoring_(model.y_test, predictions)
     countries_and_models[country_name] = model
     print(f"{model.country_name}: mae: {model.MAE}, mse: {model.MSE}, rmse: {model.RMSE}, r2_score: {model.r2_score_}, eV: {model.eV}")
+
+
+# Generer et Folium-kort
+def generate_map(df):
+    # Start kortet ved et globalt udsnit
+    m = folium.Map(location=[0, 0], zoom_start=2)
+
+    # Tilføj markører for hvert land
+    for _, row in df.iterrows():
+        folium.Marker(
+            location=[row['latitude'], row['longitude']],
+            popup=f"{row['country_name']}: {row['total_cases']} total cases",
+            icon=folium.Icon(color='red', icon='info-sign')
+        ).add_to(m)
+    
+    # Vis kortet i Streamlit
+    st_folium(m, width=725, height=500)
+
+# Du skal muligvis tilpasse din dataforberedelse for at matche dette eksempel
+generate_map(df)

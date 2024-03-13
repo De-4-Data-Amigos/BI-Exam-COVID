@@ -3,6 +3,8 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 #To run this file, use the following command in the terminal:
 #streamlit run ./Streamlit/app.py
+#Rasmus: cd C:\Users\rasmu\OneDrive\Skrivebord\4 sem\BI-Exam-COVID\
+
 
 import streamlit as st
 from streamlit_option_menu import option_menu
@@ -11,6 +13,7 @@ from streamlit_option_menu import option_menu
 import pandas as pd
 import numpy as np
 import seaborn as sb
+import folium
 
 from PIL import Image
 
