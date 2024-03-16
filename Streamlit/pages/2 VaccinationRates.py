@@ -103,7 +103,7 @@ data_hypo2['population_density'] = data_hypo2['population_density'].fillna(df_wi
 #dropping rows with missing values in population_density
 data_hypo2 = data_hypo2.dropna(subset=['population_density'])
 
-(data_hypo2.isnull().sum()/data_hypo2.shape[0])*100
+#(data_hypo2.isnull().sum()/data_hypo2.shape[0])*100
 
 #load another dataset to fill data
 #vacc_per_hundred_dataset = pd.read_csv("../Data/covid-vaccination-doses-per-capita.csv")
