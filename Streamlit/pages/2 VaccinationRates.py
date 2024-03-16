@@ -103,14 +103,14 @@ data_hypo2['population_density'] = data_hypo2['population_density'].fillna(df_wi
 #dropping rows with missing values in population_density
 data_hypo2 = data_hypo2.dropna(subset=['population_density'])
 
-#(data_hypo2.isnull().sum()/data_hypo2.shape[0])*100
+(data_hypo2.isnull().sum()/data_hypo2.shape[0])*100
 
 #load another dataset to fill data
-vacc_per_hundred_dataset = pd.read_csv("../Data/covid-vaccination-doses-per-capita.csv")
+#vacc_per_hundred_dataset = pd.read_csv("../Data/covid-vaccination-doses-per-capita.csv")
 
-vacc_per_hundred_dataset.rename(columns={'Entity':'location', 'Code':'iso_code','Day':'date'}, inplace=True)
+#vacc_per_hundred_dataset.rename(columns={'Entity':'location', 'Code':'iso_code','Day':'date'}, inplace=True)
 
-rows_with_missing_vacc_per_hundred = data_hypo2[data_hypo2['total_vaccinations_per_hundred'].isnull()]
+#rows_with_missing_vacc_per_hundred = data_hypo2[data_hypo2['total_vaccinations_per_hundred'].isnull()]
 #print(f"covid data is missing {len(rows_with_missing_vacc_per_hundred)} rows")
 
 # get the percentage of missing values
@@ -119,9 +119,9 @@ missing_values = (data_hypo2.isnull().sum()/data_hypo2.shape[0])*100
 
 data_hypo2['date'].sort_values()
 
-vacc_per_hundred_dataset['date'].sort_values()
+#vacc_per_hundred_dataset['date'].sort_values()
 
-vacc_per_hundred_dataset['date'] = pd.to_datetime(vacc_per_hundred_dataset['date'])
+#vacc_per_hundred_dataset['date'] = pd.to_datetime(vacc_per_hundred_dataset['date'])
 
 def vacc_merge_datasets(dataset1, dataset2):
     # Convert dates to datetime objects
@@ -143,9 +143,9 @@ def vacc_merge_datasets(dataset1, dataset2):
     return merged
 
 # test_dataset = fill_missing_vaccination_data(data_hypo2, vacc_per_hundred_dataset)
-intermediary_dataset = vacc_merge_datasets(data_hypo2, vacc_per_hundred_dataset)
+#intermediary_dataset = vacc_merge_datasets(data_hypo2, vacc_per_hundred_dataset)
 
-data_hypo2['total_vaccinations_per_hundred'] = data_hypo2['total_vaccinations_per_hundred'].fillna(intermediary_dataset['total_vaccinations_per_hundred'])
+#data_hypo2['total_vaccinations_per_hundred'] = data_hypo2['total_vaccinations_per_hundred'].fillna(intermediary_dataset['total_vaccinations_per_hundred'])
 
 
 data_hypo2 = data_hypo2.dropna(subset=['total_vaccinations_per_hundred'])
