@@ -222,8 +222,8 @@ nordic_countries = ['Denmark', 'Norway', 'Sweden', 'Finland', 'Greenland']
 figures = []
 
 
-st.title("Simple 3D Scatter Plt")
-st.markdown("Text")
+st.title("Simple 3D Scatter Plot")
+#st.markdown("Text")
 
 #import silhoutte picture at show it
 st.image('../Data/simple3d.png', use_column_width=True)
@@ -257,7 +257,7 @@ cbar.set_label('Total Cases')
 #st.pyplot(fig)
 
 st.title("3D Scatter Plot")
-st.markdown("Text")
+#st.markdown("Text")
 
 fig = px.scatter_3d(last_row_subset, x="population_density", y="total_vaccinations_per_hundred", z='total_cases', color="population_density",
                     size='total_vaccinations_per_hundred', size_max=40, opacity=0.8,
@@ -302,6 +302,7 @@ st.title("Top 5 Nordic countries with the highest average number of cases for va
 st.markdown("In the bar chart below, you can see the top 5 nordic countries with the highest average number of cases for vaccination coverage per hundred.")
 st.markdown("The countries are represented by colorful bars, where the color represents the total number of cases.")
 
+st.markdown("This chart is broken...")
 # Filtrere data_hypothesis_2 for kun nordiske lande
 data_hypothesis_2_subset = data_hypothesis_2[data_hypothesis_2['location'].isin(nordic_countries)]
 
@@ -432,8 +433,8 @@ st.markdown("But what we can see, is that they divert from each other and are no
 fig, ax = plt.subplots()
 ax.scatter(y_test, y_predicted, color='blue')
 ax.set_title('Multiple Linear Regression for Denmark')
-ax.set_xlabel('Total Cases')
-ax.set_ylabel('Total Vaccinations per Hundred')
+ax.set_xlabel('y_test')
+ax.set_ylabel('y_predicted')
 
 # Vis plottet på Streamlit side
 st.pyplot(fig)
