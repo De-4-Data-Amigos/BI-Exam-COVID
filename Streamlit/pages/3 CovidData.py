@@ -26,31 +26,40 @@ st.markdown("Hypothesis 3:")
 st.markdown("'We do not believe that development of a  country (HDI) correlates to how exposed a county is to infection'")
 
 st.markdown("In our third hypothesis, we want to try and predict clusters of countries based on Human Development Index and Total Cases. In other words, if two countries with close HDI values, will these also have the same amount of total cases?")
+
 # Load the data. The data is from the Our World in Data's github (https://github.com/owid/covid-19-data/tree/master/public/data). downloaded on 10/03/2024
 df = pd.read_csv("../Data/owid-covid-data.csv")
 
-
+# Selecting the relevant columns for Hypothesis 3
 columns_to_keep_hypo3 = ['iso_code', 'location', 'total_cases', 'human_development_index','date']
 
 data_hypo3 = df[columns_to_keep_hypo3]
 
+# Remove rows with missing values in 'total_cases' column
 data_hypo3 = data_hypo3.dropna(subset=['total_cases'])
 
+# Convert 'date' column to datetime format
 data_hypo3['date'] = pd.to_datetime(data_hypo3['date'])
 
+# Remove rows with 'iso_code' containing 'OWID'
 data_hypo3 = data_hypo3[~data_hypo3['iso_code'].str.contains('OWID')]
 
+# Read population density data
 pop_density = pd.read_csv("../Data/population-density.csv")
 
+# Read human development index data
 hdi_dataset = pd.read_csv("../Data/human-development-index.csv")
 
+# Filter human development index data for the first year
 first_year = 2020
 hdi_dataset = hdi_dataset[hdi_dataset['Year'] >= first_year]
+
 # pop_density = pop_density[pop_density['Year'] >= first_year]
 hdi_dataset.reset_index(drop=True, inplace=True)
 
 # Create a list of years to add
 additional_years = [2023, 2024]
+
 # Repeat the last row for each additional year
 for year in additional_years:
     last_row = hdi_dataset[hdi_dataset['Year'] == hdi_dataset['Year'].max()].copy()
@@ -63,10 +72,11 @@ hdi_dataset.rename(columns={'Code': 'iso_code', 'Entity':'location', 'Year':'yea
 
 # Merge datasets based on the 'Code' and 'iso_code' columns
 merged_dataset = pd.merge(data_hypo3, hdi_dataset, left_on='iso_code', right_on='iso_code', how='left')
-# Fill missing HDI values in dataset 2 with corresponding values from dataset 1
+
+# Fill missing HDI values with corresponding values from the second dataset
 merged_dataset['human_development_index_x'] = merged_dataset['human_development_index_x'].fillna(merged_dataset['human_development_index_y'])
 
-# Drop redundant columns
+# Drop redundant columns and rename listed columns
 data_hypo3 = merged_dataset.drop(columns=['human_development_index_y']).rename(columns={'human_development_index_x':'human_development_index', 'location_x':'location'})
 
 
@@ -75,11 +85,7 @@ data_hypo3 = data_hypo3.dropna(subset=['human_development_index'])
 #data_hypo3['human_development_index'].isnull().sum()/data_hypo3.shape[0]*100
 
 
-
-
-
-#Copy necessary data
-# Copy columns
+#Copy necessary data, the columns we want
 print(data_hypo3.columns)
 data_hypothesis_3 = data_hypo3[['human_development_index', 'total_cases', 'location', 'date']]
 
@@ -87,30 +93,50 @@ data_hypothesis_3 = data_hypo3[['human_development_index', 'total_cases', 'locat
 # Check the data to see if it looks good
 #print(data_hypothesis_3.head())
 
-# get the last row for each country
+# Group data by 'location' and select the last row for each country
 last_row = data_hypothesis_3.groupby('location').last().reset_index()
 last_row.sample(5)
 
+# Define features and labels
 X = last_row['human_development_index'].values.reshape(-1, 1)
 y = last_row['total_cases'].values.reshape(-1, 1)
 
-# Determine k by minimizing the distortion - 
+# Determine the optimal number of clusters using the Elbow Method
+# Done by determining k (Kmeans) and minimizing the distortion - 
 # the sum of the squared distances between each observation vector and its centroid
-distortions = []
-K = range(2,10)
+
+
+distortions = []  #Initialize an empty list to store distortion values
+K = range(2,10)   #define our range of values for the number of clusters (K) from 2-9
 for k in K:
-    model = KMeans(n_clusters=k).fit(X)
-    model.fit(X)
+    model = KMeans(n_clusters=k).fit(X) #Create a KMeans model with the current value of K and fit it to the data
+    model.fit(X)  #Fit the model again (unnecessary, as the model has already been fitted above)
+
+    #Calculate distortion for the current value of K and append it to the list
+    #Distortion is defined as the average of the squared distances from the cluster centers to the data points
     distortions.append(sum(np.min(cdist(X, model.cluster_centers_, 'euclidean'), axis=1)) / X.shape[0]) 
+
+    # Print the distortions for each value of K
 print("Distortion: ", distortions)
 
 
 st.title('Elbow Method for Optimal K')
 st.markdown("In our elbow method, we're looking to find the most optimal amount of clusters of countries based on Human Development Index and Total Cases. We're looking for the 'elbow' in the graph, which is the point where the distortion begins to decrease at a slower rate.")
 st.markdown("In our case, we'd recommend 5 clusters using this method, hence the 'elbow' is at 5. There's also an elbow at 3, but we prefer using 5 clusters, as it gives a better representation of the data.")
-# Opretter en ny figur og akse
-fig, ax = plt.subplots()
 
+## ---------------- ##
+# Things to notice:
+
+# The Elbow Method is a heuristic process used to determine the optimal number of clusters in a dataset. It is based on the sum of squared distances between data points and their assigned clusters' centroids. The method is called the Elbow Method because the optimal number of clusters is at the "elbow" of the graph, where the distortion begins to decrease at a slower rate.
+
+# Overfitting - Occurs if the model learns the training data too well. Will capture noise or random fluctuations in the training data and will not generalize well to new data.
+
+# Underfitting - Occurs when the model is too simple to capture the underlying structure of the data. Will not capture the data well and will not generalize well to new data.
+
+
+## ------------------ ## 
+# Plot the Elbow Method graph
+fig, ax = plt.subplots()
 # Tilføjer titel, plotter punkterne og angiver aksetiketter
 #ax.set_title('Elbow Method for Optimal K')
 ax.plot(K, distortions, 'bx-')
@@ -123,48 +149,57 @@ st.pyplot(fig)
 
 
 # Optimal number of clusters K
+# Used to fit the Kmeans model with the optimal amount of clusters
 num_clusters = 6
 
 # next we create the KMeans model and fit it to the data 
+# Determine the optimal number of clusters using the Silhouette Score Method
 kmeans = KMeans(init='k-means++', n_clusters=num_clusters, n_init=20)
 
-kmeans.fit(X)
+kmeans.fit(X) # Fit the KMeans model to the data
 
-scores = []
-K = range(2,10)
+# Calculate silhouette scores for different values of K
+scores = [] # Initialize an empty list to store silhouette scores
+K = range(2,10) # Range of values for number of clusters
 for k in K:
-    model = KMeans(n_clusters=k, n_init=10)
-    model.fit(X)
+    model = KMeans(n_clusters=k, n_init=10) # Create a KMeans model with the current value of K and perform multiple initializations
+    model.fit(X)  # Fit the model to the data
+
+     # Calculate the silhouette score for the current clustering
+    # Silhouette score measures how similar an object is to its own cluster compared to other clusters
+    # It ranges from -1 to 1, where a higher score indicates better separation between clusters
     score = metrics.silhouette_score(X, model.labels_, metric='euclidean', sample_size=len(X))
+    
+    # Append the silhouette score to the list
     scores.append(score)
 
 
-
+# Plot the Silhouette Score Method graph
 st.title('Silhouette Score Method for Discovering the Optimal K')
 st.markdown("Silhouette Score Method is a different method for this, but we're again looking for the optimal amount of clusters of countries based on Human Development. We've chosen 6, as 3 is too few, and 2 is not a good represenative of the data.")
-# Opretter en ny figur og akse
-fig, ax = plt.subplots()
 
-# Tilføjer titel, plotter punkterne og angiver aksetiketter
+# Create a new figure and axis
+fig, ax = plt.subplots() # Create a new figure and axis
+
+# Plot silhouette scores against number of clusters
+# And add labels to the plot
 ax.plot(K, scores, 'bx-')
-ax.set_xlabel('K')
-ax.set_ylabel('Silhouette Score')
+ax.set_xlabel('K') #x-axis label
+ax.set_ylabel('Silhouette Score') #y-axis label
 
-# Bruger Streamlit til at vise figuren i appen
+# Showing plot through streamlit
 st.pyplot(fig)
 
+# Predict cluster labels for each data point using the fitted Kmeans model
 
 predictions = kmeans.predict(X)
 #print(predictions)
 
-
+# Add cluster labels to the dataframe
 last_row['cluster_label'] = kmeans.labels_
 
 
-
-
-
-
+# Visualize clustering of countries by Human Development Index and Total Cases
 st.title('Clustering of Countries by Human Development Index and Total Cases')
 st.markdown("Now we're using the 6 clusters from Silhouette Score Method to cluster the countries based on Human Development.")
 
@@ -172,60 +207,55 @@ st.markdown("Now we're using the 6 clusters from Silhouette Score Method to clus
 fig, axs = plt.subplots(num_clusters, figsize=(10, num_clusters * 5), squeeze=False)
 
 for i in range(num_clusters):
-    # Vælger det aktuelle subplot
-    ax = axs[i, 0]
+    ax = axs[i, 0] # Select the current subplot
     
-    # Filtrerer data for den aktuelle klynge
+    # Filter data for the current cluster
     cluster = last_row[last_row['cluster_label'] == i]
     
-    # Plotter punkter for den aktuelle klynge
+    # Plot data points for the current cluster
     ax.scatter(cluster['human_development_index'], cluster['total_cases'])
     
-    # Sætter titel og aksetiketter
+    # Title + labels
     ax.set_title(f'Cluster {i}')
     ax.set_xlabel('Human Development Index')
     ax.set_ylabel('Total Cases')
-    ax.grid(True)
+    ax.grid(True) # Add grid lines to the plot
 
-# Justerer layout
+# Adjust layout to prevent overlap of subplots
 plt.tight_layout()
 
-# Viser den samlede figur i Streamlit
+# Show plot through Streamlit
 st.pyplot(fig)
 
 
 st.markdown("Here we can see all the clusters in different colors. We can see that the countries are clustered based on their Human Development Index and Total Cases. We can also see that the countries are not equally exposed to the risk of COVID-19 infection, as we can see that the clusters are not equally distributed. Lastly, we can see that the countries with the highest Human Development Index are in the same cluster, and the countries with the lowest Human Development.")
 
-# Opretter en ny figur
+# Create a new figure and axis
 fig, ax = plt.subplots()
 
-# Plotter datapunkter med forskellige farver for hver klynge
+# Plot data points with different colors for each cluster
 scatter = ax.scatter(last_row['human_development_index'], last_row['total_cases'], c=predictions, s=50, cmap='viridis')
 
-# Tilføjer et grid for bedre læsbarhed
+# Add grid lines for better readability
 ax.grid(True)
 
-# (Valgfrit) Tilføjer en farvebar for at repræsentere klyngerne, hvis det er relevant
+# Adds a color bar to represent clusters, if applicable
 cb = plt.colorbar(scatter)
 cb.set_label('Cluster label')
 
-# Viser plottet i Streamlit
+# Show the plot in Streamlit
 st.pyplot(fig)
 
 # Print cluster centers
 #print(kmeans.cluster_centers_)
 
-
-
-# first column
+# Calculate the range for the first column
 x_min = X.min()
 x_max = X.max()
 
-# second column
+# Calculate the range for the second column
 y_min = y.min()
 y_max = y.max()
-
-
 
 
 #TODO: VIRKER IKKE
@@ -255,7 +285,7 @@ visualizer.show()
 
 
 
-#
+
 # Convert the dataset into array
 array = last_row[['human_development_index', 'total_cases', 'cluster_label']].values
 
