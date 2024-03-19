@@ -307,7 +307,7 @@ st.image('../Data/silhouette.png', use_column_width=True)
 
 
 st.title("Decision Tree")
-st.markdown("Using the decision tree, we can try and predict what cluster a new country should go into. Using machine learning, like a decision tree, we can predict which countries are alike through the neighbours in the cluster.")
+st.markdown("Applying some machine learning, using the Decision Tree below, we can try and predict what cluster a new country should go into, based on the Human Development Index. The algorithm looks to place new countries in a cluster based on the data it had access to.")
 
 # import tree picture at show it
 st.image('../Data/tree.png', use_column_width=True)
