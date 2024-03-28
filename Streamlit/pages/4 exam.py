@@ -150,8 +150,16 @@ ax.set_zlabel('Total Cases per Million')
 st.pyplot(fig)
 
 # Plotly 3D Scatter Plot
-fig_px = px.scatter_3d(last_row_subset, x="population_density", y="total_vaccinations_per_hundred", z='total_cases_per_million', color="population_density", size='total_vaccinations_per_hundred', size_max=40, opacity=0.8, title="3D Scatter Plot")
-
+fig_px = px.scatter_3d(last_row_subset,
+                       x="population_density",
+                       y="total_vaccinations_per_hundred",
+                       z='total_cases_per_million',
+                       color="population_density",
+                       size='total_vaccinations_per_hundred',
+                       hover_name='location',  # Dette sikrer, at landenavne vises, når du holder musen over datapunkter
+                       size_max=40,
+                       opacity=0.8,
+                       title="3D Scatter Plot")
 # Brug Streamlit til at vise Plotly-plot
 st.plotly_chart(fig_px)
 
