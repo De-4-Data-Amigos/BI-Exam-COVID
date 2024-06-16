@@ -181,7 +181,7 @@ nordic_data = data_hypothesis_2[data_hypothesis_2['location'].isin(nordic_countr
 
 # Opretter et scatterplot med plotly
 fig = px.scatter(nordic_data, x='date', y='total_cases_per_million', color='location', hover_name='location',
-                 labels={'date': 'Date', 'total_cases_per_million': 'Total COVID-19 Cases'},
+                 labels={'date': 'Date', 'total_cases_per_million': 'Total cases pr million COVID-19'},
                  title='Relationship between COVID-19 Cases and the timeperiod 2020-2024 in the Nordic Countries')
 
 # Bruger Streamlit til at vise plotly-plot
