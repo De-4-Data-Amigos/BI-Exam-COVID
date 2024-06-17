@@ -62,7 +62,7 @@ st.markdown("""
             <br>
     <strong>Hypothesis 1</strong><br> We do not believe that there is a correlation between the number of infected individuals in relation to a country's Gross National Product (GNP) per capita.<br>
             <br>
-    <strong>Hypothesis 2</strong><br> We do not believe there is a connection between a country's population density and the number of COVID-19 cases, where higher population density correlates with  more COVID-19 cases. That is to say, countries with more cases also had higher vaccination coverage.<br>
+    <strong>Hypothesis 2</strong><br> We do not believe there is a correlation between a country's population density and its number of COVID-19 cases. That is, higher population density does not lead to more COVID-19 cases. That is to say, countries with more cases also had higher vaccination coverage.<br>
             <br>
     <strong>Hypothesis 3</strong><br>We do not believe that development of a country (HDI) correlates to how exposed a county is to infection.<br><br>
     By presenting data-driven insights on these hypotheses, we hope to provide valuable knowledge that could help in crafting more effective health policies and responses in the face of future pandemics. Our analysis is intended to empower policymakers, including you, by providing a nuanced understanding of the factors that influence pandemic dynamics and public health outcomes.<br><br>

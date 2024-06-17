@@ -23,7 +23,7 @@ st.set_page_config(page_title="Vaccination rates", page_icon="📊")
 
 st.title("Exam changes")
 st.markdown("Hypothesis 2:")
-st.markdown("'We do not believe there is a connection between a country's population density and the number of COVID-19 cases, where higher population density correlates with more COVID-19 cases. That is to say, countries with more cases also had higher vaccination coverage.'")
+st.markdown("'We do not believe there is a correlation between a country's population density and its number of COVID-19 cases. That is, higher population density does not lead to more COVID-19 cases. That is to say, countries with more cases also had higher vaccination coverage.'")
 
 st.markdown("Changed the column 'total_cases' to 'total_cases_per_million' to change the diagrams, and give a more realistic overview")
 
@@ -213,7 +213,7 @@ top_5_nordic_countries = data_hypothesis_2_subset.groupby('location')['total_vac
 top_5_nordic_data = data_hypothesis_2_subset[data_hypothesis_2_subset['location'].isin(top_5_nordic_countries)].sort_values('total_vaccinations_per_hundred', ascending=True)
 
 # Søjlediagram med plotly for de nordiske lande med farvefulde søjler baseret på total_cases
-fig = px.bar(top_5_nordic_data, x='location', y='total_vaccinations_per_hundred', color='total_cases_per_million',
+fig = px.bar(top_5_nordic_data, x='location', y='total_vaccinations_per_hundred', color='total_vaccinations_per_hundred',
              labels={'total_vaccinations_per_hundred': 'Gennemsnitlig vaccinationsdækning per hundrede', 'location': 'Land'},
              title='Top 5 nordiske lande med det højeste gennemsnitlige antal sager for vaccinationsdækning per hundrede')
 
@@ -238,3 +238,5 @@ st.pyplot(plt)
 st.image('../Data/heatmap.png', use_column_width=True)
 
 st.image('../Data/linear3.png', use_column_width=True)
+
+st.image('../Data/polynomial.png', use_column_width=True)

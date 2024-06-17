@@ -25,7 +25,7 @@ st.set_page_config(page_title="Vaccination rates", page_icon="📊")
 
 st.title("Vaccination rates")
 st.markdown("Hypothesis 2:")
-st.markdown("'We do not believe there is a connection between a country's population density and the number of COVID-19 cases, where higher population density correlates with more COVID-19 cases. That is to say, countries with more cases also had higher vaccination coverage.'")
+st.markdown("'We do not believe there is a correlation between a country's population density and its number of COVID-19 cases. That is, higher population density does not lead to more COVID-19 cases. That is to say, countries with more cases also had higher vaccination coverage.'")
 
 st.markdown("Based on our second hypothesis, we want to investigate the relationship between the number of Covid-19 cases, vaccination rates and population density.")
 
@@ -303,6 +303,7 @@ st.markdown("In the bar chart below, you can see the top 5 nordic countries with
 st.markdown("The countries are represented by colorful bars, where the color represents the total number of cases.")
 
 st.markdown("This chart is broken...")
+
 # Filtrere data_hypothesis_2 for kun nordiske lande
 data_hypothesis_2_subset = data_hypothesis_2[data_hypothesis_2['location'].isin(nordic_countries)]
 
