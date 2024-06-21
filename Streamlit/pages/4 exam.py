@@ -213,7 +213,7 @@ top_5_nordic_countries = data_hypothesis_2_subset.groupby('location')['total_vac
 top_5_nordic_data = data_hypothesis_2_subset[data_hypothesis_2_subset['location'].isin(top_5_nordic_countries)].sort_values('total_vaccinations_per_hundred', ascending=True)
 
 # Søjlediagram med plotly for de nordiske lande med farvefulde søjler baseret på total_cases
-fig = px.bar(top_5_nordic_data, x='location', y='total_vaccinations_per_hundred', color='total_vaccinations_per_hundred',
+fig = px.bar(top_5_nordic_data, x='location', y='total_cases_per_million', color='total_vaccinations_per_hundred',
              labels={'total_vaccinations_per_hundred': 'Gennemsnitlig vaccinationsdækning per hundrede', 'location': 'Land'},
              title='Top 5 nordiske lande med det højeste gennemsnitlige antal sager for vaccinationsdækning per hundrede')
 
